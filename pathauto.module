@@ -605,4 +605,3 @@ function _pathauto_update() {
   } 
 } // end function _pathauto_update 
 
-?>

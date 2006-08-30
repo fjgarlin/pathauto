@@ -1,5 +1,5 @@
 <?php
-
+/* $Id$ */
 /*
  * Implementation of hook_pathauto()
  */
@@ -255,17 +255,17 @@ function node_pathauto_page() {
   }
   
   if ($lastalpha) {
-    $pagetitle = drupal_ucfirst($lastalpha);
+    $pagetitle = check_plain(drupal_ucfirst($lastalpha));
   } else {
     $pagetitle = 'Listing';
   }
 
-  $query = 'SELECT n.nid FROM {url_alias} a '.
+
+  $result = pager_query(db_rewrite_sql('SELECT n.nid FROM {url_alias} a '.
     "INNER JOIN {node} n ON a.src = CONCAT('node/', n.nid)  ".
-    "WHERE n.status = 1 AND a.dst LIKE '$prefix%' ".
-    'ORDER BY n.sticky DESC, n.created DESC';
-  $result = pager_query(db_rewrite_sql($query, $prefix), 
-    variable_get('default_nodes_main', 10));
+    "WHERE n.status = 1 AND a.dst LIKE '%s%%' ".
+    'ORDER BY n.sticky DESC, n.created DESC'), 
+    variable_get('default_nodes_main', 10), 0, NULL, $prefix);
 
   $output = '';
   while ($node = db_fetch_object($result)) {
@@ -278,4 +278,3 @@ function node_pathauto_page() {
   return $output;
 }
 
-?>

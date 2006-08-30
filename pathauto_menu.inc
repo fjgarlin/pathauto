@@ -1,5 +1,5 @@
 <?php
-
+/* $Id$ */
 /**
  * @file
  * This is pathauto_menu.inc, an submodule for pathauto.module
@@ -94,4 +94,3 @@ function pathauto_menu_get_mid($in) {
   return $mid;
 }
 
-?>
