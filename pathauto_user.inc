@@ -1,4 +1,5 @@
 <?php
+/* $Id$ */
 
 /**
  * Implementation of hook_pathauto() for user aliases
@@ -108,6 +109,9 @@ function pathauto_user($op, &$edit, &$user, $category=FALSE) {
       if (module_exist('blog')) {
         path_set_alias('blog/'.$user->uid);
       }
+      if (module_exist('tracker')) {
+        path_set_alias('user/'.$user->uid.'/track');
+      } 
       break;
     default:
       break;
