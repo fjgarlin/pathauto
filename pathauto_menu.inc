@@ -1,4 +1,5 @@
 <?php
+/* $Id$ */
 
 /**
  * @file
@@ -94,4 +95,3 @@ function pathauto_menu_get_mid($in) {
   return $mid;
 }
 
-?>

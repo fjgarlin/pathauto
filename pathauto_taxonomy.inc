@@ -1,4 +1,5 @@
 <?php
+/* $Id$ */
 
 /*
  * Implementation of hook_pathauto()
@@ -164,4 +165,3 @@ function taxonomy_pathauto_bulkupdate() {
     "Bulk update of terms completed, %count aliases generated."));
 }
 
-?>
