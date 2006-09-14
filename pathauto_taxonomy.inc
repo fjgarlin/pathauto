@@ -81,16 +81,9 @@ function pathauto_taxonomy($op, $type, $object = NULL) {
             // Append any additional extensions
             $extplaceholders = module_invoke_all('pathauto_taxonomy', 'values', $category);
             $placeholders = array_merge($placeholders, $extplaceholders);
-            
-            if (module_exist('forum')) {
-              $forumvid = variable_get('forum_nav_vocabulary', '');
-              if ($forumvid == $vid) {
-                $src = 'forum/'.$category->tid;
-                $forumalias = pathauto_create_alias('taxonomy', $op, $placeholders, 
-                  $src, $forumvid);
-              }
-            }
-            $src = 'taxonomy/term/'.$category->tid;
+
+            $src = taxonomy_term_path($category);
+
             $alias = pathauto_create_alias('taxonomy', $op, $placeholders, 
               $src, $vid);
           }
@@ -143,15 +136,7 @@ function taxonomy_pathauto_bulkupdate() {
     }
     $placeholders['[catpath]'] = $catpath;
 
-    $forumvid = variable_get('forum_nav_vocabulary', '');
-    if ($forumvid == $vid) {
-      $src = 'forum/'.$category->tid;
-      if ($forumalias = pathauto_create_alias('taxonomy', 'bulkupdate', 
-                      $placeholders, $src, $forumvid)) {
-        $count++;
-      }
-    }
-    $src = 'taxonomy/term/'.$category->tid;
+    $src = taxonomy_term_path($category);
     if ($alias = pathauto_create_alias('taxonomy', 'bulkupdate',
                   $placeholders, $src, $vid)) {
       $count++;
