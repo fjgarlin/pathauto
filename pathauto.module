@@ -33,8 +33,7 @@ function pathauto_settings() {
   // Insist that path.module be enabled
   if (!module_exist('path')) {
     $form['error'] = array('#type' => 'item',
-      '#title' => t('<p>The pathauto module is an extension of the <b>path</b> '.
-      'module - you must <a href="admin/modules">enable <b>path</b></a> to use it.</p>'));
+      '#title' => t('The pathauto module is an extension of the <strong>path</strong> module - you must <a href="%admin-modules">enable <strong>path</strong></a> to use it.', array('%admin-modules' => url('admin/modules'))));
     return $form;
   }
   
@@ -430,9 +429,9 @@ function _pathauto_set_alias($src, $dst, $pid = NULL, $verbose = FALSE, $oldalia
     path_set_alias($src, $dst, $pid, 1, 10);
     if ($verbose and user_access('create url aliases')) {
       if ($pid) {
-        drupal_set_message("Created new alias <b>$dst</b> for <b>$src</b>, replacing <b>$oldalias</b>");
+        drupal_set_message(t('Created new alias %dst for %src, replacing %oldalias', array('%dst' => theme('placeholder', $dst), '%src' => theme('placeholder', $src), '%oldalias' => theme('placeholder', $oldalias))));
       } else {
-        drupal_set_message("Created new alias <b>$dst</b> for <b>$src</b>");
+        drupal_set_message(t('Created new alias %dst for %src', array('%dst' => theme('placeholder', $dst), '%src' => theme('placeholder', $src))));
       }
     }
   }
