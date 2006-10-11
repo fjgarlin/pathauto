@@ -31,10 +31,24 @@ sure "administer pathauto" is enabled through access control administration.
 4. Visit the pathauto settings page:
   When first installing pathauto, to define the desired alias patterns.
   When installing a new version of pathauto, to have any necessary
-    database and variable upgrades applied.
+    database and variable upgrades applied. 
 
 
-Credits:
+**Notice
+
+Please bear in mind that only URLs passed through Drupal's l() or url()
+functions will be replaced with their aliases during page output. If a module
+or your template contains hardcoded links, such as 'href="node/$node->nid"'
+those won't get replaced with their corresponding aliases. Use instead
+
+* 'href="'. url("node/$node->nid") .'"' or
+* l("Your link title", "node/$node->nid")
+
+See http://api.drupal.org/api/HEAD/function/url and 
+http://api.drupal.org/api/HEAD/function/l for more information.
+
+
+**Credits:
 
 The original module combined the functionality of Mike Ryan's autopath with
 Tommy Sundstrom's path_automatic.
