@@ -1,5 +1,6 @@
 <?php
-/* $Id$ */
+// $Id$
+
 /**
  * @file
  * This is pathauto_menu.inc, an submodule for pathauto.module

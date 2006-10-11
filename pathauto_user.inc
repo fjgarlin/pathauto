@@ -1,5 +1,6 @@
 <?php
-/* $Id$ */
+// $Id$
+
 /**
  * Implementation of hook_pathauto() for user aliases
  */

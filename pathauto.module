@@ -1,5 +1,5 @@
 <?php
-/* $Id$ */
+// $Id$
 
 function pathauto_help($section = 'admin/modules#description') {
   switch ($section) {
@@ -618,6 +618,6 @@ function _pathauto_update() {
 
     drupal_set_message('Upgraded pathauto from '.$installed_version['build'] .
       ' to '. $current_version['build']);
-  } 
-} // end function _pathauto_update 
+  }
+} // end function _pathauto_update
 
