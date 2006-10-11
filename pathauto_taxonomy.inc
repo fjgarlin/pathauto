@@ -25,15 +25,14 @@ function taxonomy_pathauto($op) {
 
       $settings['supportsfeeds'] = '0/feed';
       $settings['bulkname'] = t('Bulk update category paths');
-      $settings['bulkdescr'] = 
-        t('Generate aliases for all existing categories which do not already have aliases.');
+      $settings['bulkdescr'] = t('Generate aliases for all existing categories which do not already have aliases.');
 
       $vocabularies = taxonomy_get_vocabularies();
       if (sizeof($vocabularies) > 0) {
         $settings['patternitems'] = array();  
         foreach ($vocabularies as $vocab) {
           $vocabname = $vocab->name;
-          $fieldlabel = t('Pattern for all '.$vocabname.' paths');
+          $fieldlabel = t('Pattern for all %vocab-name paths', array('%vocab-name' => theme('placeholder', $vocabname)));
           $settings['patternitems'][$vocab->vid] = $fieldlabel;
         }
       }

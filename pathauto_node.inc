@@ -43,9 +43,7 @@ function node_pathauto($op) {
           $settings['placeholders'][t('[catpath]')] =
             t('As [cat], but including its supercategories.');
           $settings['placeholders'][t('[catalias]')] =
-            t('The alias for the lowest-weight category that the page belongs to. '.
-              'This is useful for long category names. You must first set up '.
-              'aliases for your categories.');
+            t('The alias for the lowest-weight category that the page belongs to. This is useful for long category names. You must first set up aliases for your categories.');
         }
       }
       
@@ -62,7 +60,7 @@ function node_pathauto($op) {
 
       $nodetypes = node_get_types();
       foreach ($nodetypes as $ntype => $displaytype) {
-        $fieldlabel = t('Pattern for all '.$displaytype.' paths');
+        $fieldlabel = t('Pattern for all %name paths', array('%name' => theme('placeholder', $ntype->name)));
         $settings['patternitems'][$ntype] = $fieldlabel;
       }
       return (object) $settings;
@@ -100,12 +98,9 @@ function pathauto_form_alter($formid, &$form) {
   */
   if ($form['#attributes']['id'] == 'node-form') {
     if (user_access('create url aliases')) {
-      $output .= t('An alias will be automatically generated from the title '.
-        'and other node attributes, in addition to any alias manually '.
-        'provided above.');
+      $output .= t('An alias will be automatically generated from the title and other node attributes, in addition to any alias manually provided above.');
       if (user_access('administer pathauto')) {
-        $output .= t(' To control the format of the generated aliases, '.
-          'see the <a href="admin/settings/pathauto">pathauto settings</a>.');
+        $output .= t(' To control the format of the generated aliases, see the <a href="%url">pathauto settings</a>.', array('%url' => url('admin/settings/pathauto')));
       }
     }
     if ($output) {
@@ -258,7 +253,7 @@ function node_pathauto_page() {
   if ($lastalpha) {
     $pagetitle = check_plain(drupal_ucfirst($lastalpha));
   } else {
-    $pagetitle = 'Listing';
+    $pagetitle = t('Listing');
   }
 
 
@@ -275,7 +270,7 @@ function node_pathauto_page() {
   
   $output .= theme('pager', NULL, variable_get('default_nodes_main', 10));
 
-  drupal_set_title(t($pagetitle));
+  drupal_set_title($pagetitle);
   return $output;
 }
 
