@@ -136,6 +136,10 @@ function taxonomy_pathauto_bulkupdate() {
     }
     $placeholders['[catpath]'] = $catpath;
 
+    // Append any additional extensions
+    $extplaceholders = module_invoke_all('pathauto_taxonomy', 'values', $category);
+    $placeholders = array_merge($placeholders, $extplaceholders);
+
     $src = taxonomy_term_path($category);
     if ($alias = pathauto_create_alias('taxonomy', 'bulkupdate',
                   $placeholders, $src, $vid)) {
