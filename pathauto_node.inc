@@ -161,13 +161,15 @@ function node_get_placeholders($node) {
     
     // I'd use more descriptive variables, but the content isn't always a tid
     foreach ($node->taxonomy as $key => $value) { 
+      if (is_object($value)){
+        $value = (array) $value;
+      }
       if ($key === 'tags') { 
         // It's a freetag so make sure that there is a value in the array
         // Shamelessly stolen from taxonomy_node_save - most of it should be refactored out of that
         // So it can be easily reused, but until then: copy-paste-antipattern here we come!
-        
-        $typed_input = $value;
-        foreach ((array)$typed_input as $vid => $vid_value) {
+        $value = (array) $value;
+        foreach ($value as $vid => $vid_value) {
           if ($first_term_id) break;
           // This regexp allows the following types of user input:
           // this, "somecmpany, llc", "and ""this"" w,o.rks", foo bar
