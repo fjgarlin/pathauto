@@ -33,6 +33,12 @@ those won't get replaced with their corresponding aliases. Use instead
 See http://api.drupal.org/api/HEAD/function/url and 
 http://api.drupal.org/api/HEAD/function/l for more information.
 
+**NOTE:
+Index aliases are buggy, slow, and can be harmful to your site.  Please don't 
+use them.  They are included for backwards compatibility but are removed in 
+Pathuaot 5.x-2.x and will definitely be gone in the Drupal6.x Compatible
+version of the module.
+
 
 **Credits:
 
