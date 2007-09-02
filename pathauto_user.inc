@@ -82,10 +82,9 @@ function pathauto_user($op, &$edit, &$user, $category = FALSE) {
       /*
       ** Use the username to automatically create an alias
       */
-      $user = (object) $user;
-      if ($user->name) {
+      if ($edit['name']) {
         $placeholders = array();
-        $placeholders[t('[user]')] = pathauto_cleanstring($user->name);
+        $placeholders[t('[user]')] = pathauto_cleanstring($edit['name']);
         $placeholders[t('[uid]')] = $user->uid;
         $src = 'user/'. $user->uid;
         $alias = pathauto_create_alias('user', $op, $placeholders, $src);
