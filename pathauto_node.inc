@@ -81,6 +81,7 @@ function pathauto_nodeapi(&$node, $op, $teaser, $page) {
         $placeholders = node_get_placeholders($node);        
         $src = "node/$node->nid";
         $alias = pathauto_create_alias('node', $op, $placeholders, $src, $node->type);
+        $node->path = $alias;
         break;
       default:
         break;
