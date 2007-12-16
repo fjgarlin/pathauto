@@ -4,11 +4,11 @@
 # Copyright YEAR NAME <EMAIL@ADDRESS>
 # Generated from files:
 #  pathauto_menu.inc,v 1.6.2.1 2007/04/11 16:26:07 greggles
-#  pathauto_node.inc,v 1.29.2.7 2007/04/26 23:19:31 greggles
-#  pathauto_user.inc,v 1.17.2.1 2007/04/11 16:26:07 greggles
+#  pathauto_node.inc,v 1.29.2.8 2007/07/26 00:33:33 greggles
+#  pathauto_user.inc,v 1.17.2.2 2007/09/02 12:57:29 greggles
 #  pathauto_taxonomy.inc,v 1.20.2.4 2007/06/04 21:46:26 greggles
 #  pathauto.module,v 1.44.2.6 2007/04/11 16:26:07 greggles
-#  pathauto.info,v 1.3.2.2 2007/01/17 16:53:41 greggles
+#  pathauto.info,v 1.3.2.3 2007/06/18 23:06:57 dww
 #  pathauto_node_event.inc,v 1.3 2006/10/12 14:54:15 greggles
 #  pathauto_node_i18n.inc,v 1.3 2006/10/12 14:54:15 greggles
 #
@@ -16,7 +16,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2007-06-26 15:49+0200\n"
+"POT-Creation-Date: 2007-12-16 17:48+0100\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -73,7 +73,7 @@ msgstr ""
 msgid "The id number of the node."
 msgstr ""
 
-#: pathauto_node.inc:23;134 pathauto_user.inc:16;39;63;88;130;153;176
+#: pathauto_node.inc:23;134 pathauto_user.inc:16;39;63;87;129;152;175
 msgid "[user]"
 msgstr ""
 
@@ -81,7 +81,7 @@ msgstr ""
 msgid "The name of the user who created the node."
 msgstr ""
 
-#: pathauto_node.inc:24;129 pathauto_user.inc:17;40;64;89;131;154;177
+#: pathauto_node.inc:24;129 pathauto_user.inc:17;40;64;88;130;153;176
 msgid "[uid]"
 msgstr ""
 
@@ -169,7 +169,7 @@ msgstr ""
 msgid "The week number (1-52) of the year the node was created."
 msgstr ""
 
-#: pathauto_node.inc:40;221;238 pathauto_taxonomy.inc:17;65;123;157;185
+#: pathauto_node.inc:40;223;240 pathauto_taxonomy.inc:17;65;123;157;185
 msgid "[vocab]"
 msgstr ""
 
@@ -177,7 +177,7 @@ msgstr ""
 msgid "The vocabulary that the page's first category belongs to."
 msgstr ""
 
-#: pathauto_node.inc:42;217;236 pathauto_taxonomy.inc:18;66;124;158;186
+#: pathauto_node.inc:42;219;238 pathauto_taxonomy.inc:18;66;124;158;186
 msgid "[cat]"
 msgstr ""
 
@@ -185,7 +185,7 @@ msgstr ""
 msgid "The name of the lowest-weight category that the page belongs to."
 msgstr ""
 
-#: pathauto_node.inc:44;233;237 pathauto_taxonomy.inc:19;70;126;159;188
+#: pathauto_node.inc:44;235;239 pathauto_taxonomy.inc:19;70;126;159;188
 msgid "[catpath]"
 msgstr ""
 
@@ -193,7 +193,7 @@ msgstr ""
 msgid "As [cat], but including its supercategories."
 msgstr ""
 
-#: pathauto_node.inc:46;223;225;239
+#: pathauto_node.inc:46;225;227;241
 msgid "[catalias]"
 msgstr ""
 
@@ -229,7 +229,7 @@ msgstr ""
 msgid " To control the format of the generated aliases, see the <a href=\"admin/settings/pathauto\">pathauto settings</a>."
 msgstr ""
 
-#: pathauto_node.inc:275
+#: pathauto_node.inc:277
 msgid "Bulk update of nodes completed, one alias generated."
 msgid_plural "Bulk update of nodes completed, @count aliases generated."
 msgstr[0] ""
@@ -363,19 +363,19 @@ msgstr ""
 msgid "Generate aliases for all existing user-tracker pages which do not already have aliases."
 msgstr ""
 
-#: pathauto_user.inc:139
+#: pathauto_user.inc:138
 msgid "Bulk update of users completed, one alias generated."
 msgid_plural "Bulk update of users completed, @count aliases generated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: pathauto_user.inc:162
+#: pathauto_user.inc:161
 msgid "Bulk update of user blogs completed, one alias generated."
 msgid_plural "Bulk update of user blogs completed, @count aliases generated."
 msgstr[0] ""
 msgstr[1] ""
 
-#: pathauto_user.inc:185
+#: pathauto_user.inc:184
 msgid "Bulk update of user tracker pages completed, one alias generated."
 msgid_plural "Bulk update of user tracker pages completed, @count aliases generated."
 msgstr[0] ""
@@ -523,7 +523,7 @@ msgstr[1] ""
 msgid "administer pathauto"
 msgstr ""
 
-#: pathauto.module:0 pathauto.info:0
+#: pathauto.module:0
 msgid "pathauto"
 msgstr ""
 
