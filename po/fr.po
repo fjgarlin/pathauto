@@ -1,6 +1,5 @@
 # translation of fr_pathauto.new_.po to français
 # Françoise L. aka floown <ihavamail@gmail.com>, 2007.
-# $Id$
 # translation of pathauto.pot to fr.po
 msgid ""
 msgstr ""
