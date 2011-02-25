@@ -1,5 +1,4 @@
 <?php
-/* $Id$ */
 
 // Look for any extensions installed in the pathauto directory
 $path = drupal_get_path('module', 'pathauto');
