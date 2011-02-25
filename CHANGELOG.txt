@@ -146,4 +146,3 @@
   Initial merger of Mike Ryan's autopath with Tommy Sundstrom's 
   path_automatic.
 
-$Id$

@@ -1,5 +1,4 @@
 # translation of el.po to Greek
-# $Id$
 # Copyright Vasileios Lourdas <lourdas_v@yahoo.gr>, 2007.
 # Generated from files:
 #  pathauto_menu.inc,v 1.6.2.1 2007/04/11 16:26:07 greggles

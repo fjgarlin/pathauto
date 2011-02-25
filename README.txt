@@ -56,4 +56,3 @@ Current maintainer: Greg Knaddison (greg AT knaddison DOT com)
 **Changes:
 See the CHANGELOG.txt
 
-$Id$

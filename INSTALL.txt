@@ -24,4 +24,3 @@ You can then freely edit the i18n-ascii.txt without worrying that your changes
 will be over-written by upgrades of Pathauto.
 
 
-$Id$
