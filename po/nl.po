@@ -1,4 +1,3 @@
-# $Id$
 # translation of pathauto.po into Dutch
 # Joep Bar <info@promes.nl> 2007.
 #
