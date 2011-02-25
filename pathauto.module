@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
   // Look for any extensions installed in the pathauto directory
   // we include this here instead of hook_menu for a reason - see http://drupal.org/node/60526

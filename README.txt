@@ -1,4 +1,3 @@
-$Id$
 
 **Description:
 The pathauto module provides support functions for other modules to 
