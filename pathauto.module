@@ -278,16 +278,19 @@ function pathauto_action_info() {
     'type' => 'node',
     'description' => t('Update node alias'),
     'configurable' => FALSE,
+    'hooks' => array(),
   );
   $info['pathauto_taxonomy_term_update_action'] = array(
     'type' => 'term',
     'description' => t('Update taxonomy term alias'),
     'configurable' => FALSE,
+    'hooks' => array(),
   );
   $info['pathauto_user_update_action'] = array(
     'type' => 'user',
     'description' => t('Update user alias'),
     'configurable' => FALSE,
+    'hooks' => array(),
   );
 
   return $info;
