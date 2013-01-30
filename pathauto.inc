@@ -338,7 +338,6 @@ function _pathauto_clean_separators($string, $separator = NULL) {
 
   $output = $string;
 
-  // Clean duplicate or trailing separators.
   if (strlen($separator)) {
     // Trim any leading or trailing separators.
     $output = trim($output, $separator);
