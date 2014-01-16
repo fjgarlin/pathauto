@@ -255,7 +255,13 @@ function pathauto_cleanstring($string) {
     return '';
   }
 
-  $langcode = isset($options['langcode']) ? $options['langcode'] : NULL;
+  $langcode = NULL;
+  if (!empty($options['language']->language)) {
+    $langcode = $options['language']->language;
+  }
+  elseif (!empty($options['langcode'])) {
+    $langcode = $options['langcode'];
+  }
 
   // Check if the string has already been processed, and if so return the
   // cached result.
@@ -743,11 +749,6 @@ function pathauto_get_placeholders($type, $object, $text = '', array $options = 
  *   An array of the cleaned tokens.
  */
 function pathauto_clean_token_values($full, $options = array()) {
-  // Convert language object into language code before pathauto_cleanstring().
-  if (!empty($options['language']->language)) {
-    $options['langcode'] = $options['language']->language;
-  }
-
   $replacements = array();
   foreach ($full->values as $key => $value) {
     $token = $full->tokens[$key];
