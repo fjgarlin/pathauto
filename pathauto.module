@@ -444,7 +444,7 @@ function pathauto_node_operations() {
  */
 function pathauto_node_update_alias($node, $op, $options = array()) {
   // Skip processing if the user has disabled pathauto for the node.
-  if (isset($node->pathauto_perform_alias) && empty($node->pathauto_perform_alias)) {
+  if (isset($node->pathauto_perform_alias) && empty($node->pathauto_perform_alias) && empty($options['force'])) {
     return;
   }
 
@@ -568,7 +568,7 @@ function pathauto_taxonomy($op, $type, $object = NULL) {
  */
 function pathauto_taxonomy_term_update_alias($term, $op, $options = array()) {
   // Skip processing if the user has disabled pathauto for the term.
-  if (isset($term->pathauto_perform_alias) && empty($term->pathauto_perform_alias)) {
+  if (isset($term->pathauto_perform_alias) && empty($term->pathauto_perform_alias) && empty($options['force'])) {
     return;
   }
 
@@ -723,7 +723,7 @@ function pathauto_user_operations() {
  */
 function pathauto_user_update_alias($account, $op, $options = array()) {
   // Skip processing if the user has disabled pathauto for the account.
-  if (isset($account->pathauto_perform_alias) && empty($account->pathauto_perform_alias)) {
+  if (isset($account->pathauto_perform_alias) && empty($account->pathauto_perform_alias) && empty($options['force'])) {
     return;
   }
 
