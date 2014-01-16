@@ -39,6 +39,9 @@ function pathauto_help($path, $arg) {
       $output .= '<dd>' . t('In Pathauto it is appropriate to use the -raw form of tokens. Paths are sent through a filtering system which ensures that raw user content is filtered. Failure to use -raw tokens can cause problems with the Pathauto punctuation filtering system.') . '</dd>';
       $output .= '</dl>';
       return $output;
+    case 'admin/build/path/update_bulk':
+      $output = '<p>' . t('Bulk generation will only generate URL aliases for items that currently have no aliases. This is typically used when installing Pathauto on a site that has existing un-aliased content that needs to be aliased in bulk.') . '</p>';
+      return $output;
   }
 }
 
@@ -75,7 +78,7 @@ function pathauto_menu() {
     'file' => 'pathauto.admin.inc',
   );
   $items['admin/build/path/update_bulk'] = array(
-    'title' => 'Bulk update',
+    'title' => 'Bulk generate',
     'page callback' => 'drupal_get_form',
     'page arguments' => array('pathauto_bulk_update_form'),
     'access arguments' => array('administer url aliases'),
