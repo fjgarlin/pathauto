@@ -188,6 +188,11 @@ function _pathauto_existing_alias_data($source, $language = '') {
  *
  * @param $string
  *   A string to clean.
+ * @param array $options
+ *   (optional) A keyed array of settings and flags to control the Pathauto
+ *   clean string replacement process. Supported options are:
+ *   - langcode: A language code to be used when translating strings.
+ *
  * @return
  *   The cleaned string.
  */
@@ -250,10 +255,12 @@ function pathauto_cleanstring($string) {
     return '';
   }
 
+  $langcode = isset($options['langcode']) ? $options['langcode'] : NULL;
+
   // Check if the string has already been processed, and if so return the
   // cached result.
-  if (isset($cache['strings'][$string])) {
-    return $cache['strings'][$string];
+  if (isset($cache['strings'][$langcode][$string])) {
+    return $cache['strings'][$langcode][$string];
   }
 
   // Remove all HTML tags from the string.
@@ -261,7 +268,7 @@ function pathauto_cleanstring($string) {
 
   // Optionally transliterate (by running through the Transliteration module)
   if ($cache['transliterate']) {
-    $output = transliteration_get($output);
+    $output = transliteration_get($output, $cache['reduce_ascii'] ? '' : '?', $langcode);
   }
 
   // Replace or drop punctuation based on user settings
@@ -295,7 +302,7 @@ function pathauto_cleanstring($string) {
   $output = pathauto_truncate_utf8($output, $cache['maxlength'], TRUE);
 
   // Cache this result in the static array.
-  $cache['strings'][$string] = $output;
+  $cache['strings'][$langcode][$string] = $output;
 
   return $output;
 }
@@ -426,7 +433,7 @@ function pathauto_create_alias($module, $op, $source, $data, $entity_id = NULL, 
     $source = $data;
   }
   elseif (is_array($data) && !isset($data['tokens']) && !isset($data['values'])) {
-    $placeholders = pathauto_get_placeholders(key($data), current($data), $pattern);
+    $placeholders = pathauto_get_placeholders(key($data), current($data), $pattern, array('language' => (object) array('language' => $language)));
   }
   else {
     $placeholders = $data;
@@ -699,8 +706,9 @@ function _pathauto_verbose($message = NULL, $op = NULL) {
  *   Tokens for that object formatted in the way that
  *   Pathauto expects to see them.
  */
-function pathauto_get_placeholders($type, $object, $text = '') {
-  $options = array('pathauto' => TRUE);
+function pathauto_get_placeholders($type, $object, $text = '', array $options = array()) {
+  $options += array('pathauto' => TRUE);
+
   $full = token_get_values($type, $object, TRUE, $options);
 
   // Attempt to reduce the tokens to only the ones that will actually be used
@@ -735,6 +743,11 @@ function pathauto_get_placeholders($type, $object, $text = '') {
  *   An array of the cleaned tokens.
  */
 function pathauto_clean_token_values($full, $options = array()) {
+  // Convert language object into language code before pathauto_cleanstring().
+  if (!empty($options['language']->language)) {
+    $options['langcode'] = $options['language']->language;
+  }
+
   $replacements = array();
   foreach ($full->values as $key => $value) {
     $token = $full->tokens[$key];
@@ -743,7 +756,10 @@ function pathauto_clean_token_values($full, $options = array()) {
       // the 'pathauto' option was passed to token_get_values(), then the token
       // should have each segment cleaned, and then glued back together to
       // construct a value resembling an URL.
-      $segments = array_map('pathauto_cleanstring', $value);
+      $segments = array();
+      foreach ($value as $segment) {
+        $segments[] = pathauto_cleanstring($segment, $options);
+      }
       $replacements[$token] = implode('/', $segments);
     }
     elseif (preg_match('/(path|alias|url|url-brief)(-raw)?$/', $token)) {
@@ -752,7 +768,7 @@ function pathauto_clean_token_values($full, $options = array()) {
     }
     else {
       // Token is not an URL, so it should have its value cleaned.
-      $replacements[$token] = pathauto_cleanstring($value);
+      $replacements[$token] = pathauto_cleanstring($value, $options);
     }
   }
   return $replacements;
