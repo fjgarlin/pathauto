@@ -62,8 +62,6 @@ define('PATHAUTO_PUNCTUATION_DO_NOTHING', 2);
 /**
  * Matches Unicode characters that are word boundaries.
  *
- * @see http://unicode.org/glossary
- *
  * Characters with the following General_category (gc) property values are used
  * as word boundaries. While this does not fully conform to the Word Boundaries
  * algorithm described in http://unicode.org/reports/tr29, as PCRE does not
@@ -82,6 +80,8 @@ define('PATHAUTO_PUNCTUATION_DO_NOTHING', 2);
  * Note that the PCRE property matcher is not used because we wanted to be
  * compatible with Unicode 5.2.0 regardless of the PCRE version used (and any
  * bugs in PCRE property tables).
+ *
+ * @see http://unicode.org/glossary
  */
 define('PATHAUTO_PREG_CLASS_UNICODE_WORD_BOUNDARY',
   '\x{0}-\x{2F}\x{3A}-\x{40}\x{5B}-\x{60}\x{7B}-\x{A9}\x{AB}-\x{B1}\x{B4}' .
@@ -116,7 +116,7 @@ define('PATHAUTO_PREG_CLASS_UNICODE_WORD_BOUNDARY',
   '\x{A836}-\x{A839}\x{A874}-\x{A877}\x{A8CE}-\x{A8CF}\x{A8F8}-\x{A8FA}' .
   '\x{A92E}-\x{A92F}\x{A95F}\x{A9C1}-\x{A9CD}\x{A9DE}-\x{A9DF}' .
   '\x{AA5C}-\x{AA5F}\x{AA77}-\x{AA79}\x{AADE}-\x{AADF}\x{ABEB}' .
-  '\x{D800}-\x{F8FF}\x{FB29}\x{FD3E}-\x{FD3F}\x{FDFC}-\x{FDFD}' .
+  '\x{E000}-\x{F8FF}\x{FB29}\x{FD3E}-\x{FD3F}\x{FDFC}-\x{FDFD}' .
   '\x{FE10}-\x{FE19}\x{FE30}-\x{FE6B}\x{FEFF}-\x{FF0F}\x{FF1A}-\x{FF20}' .
   '\x{FF3B}-\x{FF40}\x{FF5B}-\x{FF65}\x{FFE0}-\x{FFFD}');
 
