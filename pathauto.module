@@ -901,3 +901,28 @@ function pathauto_blog_update_alias(stdClass $account, $op, array $options = arr
 /**
  * @} End of "name pathauto_user".
  */
+
+/**
+ * Implements hook_features_pipe_COMPONENT_alter().
+ */
+function pathauto_features_pipe_node_alter(&$pipe, $data, $export) {
+  foreach ($data as $node_type) {
+    $pipe['variable'][] = "pathauto_node_{$node_type}_pattern";
+    if (module_exists('locale')) {
+      $langcodes = array_keys(locale_language_list('name'));
+      $langcodes[] = LANGUAGE_NONE;
+      foreach ($langcodes as $langcode) {
+        $pipe['variable'][] = "pathauto_node_{$node_type}_{$langcode}_pattern";
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_features_pipe_COMPONENT_alter().
+ */
+function pathauto_features_pipe_taxonomy_alter(&$pipe, $data, $export) {
+  foreach ($data as $vocabulary) {
+    $pipe['variable'][] = "pathauto_taxonomy_term_{$vocabulary}_pattern";
+  }
+}
