@@ -1,4 +1,4 @@
-#Pathauto [![Build Status](https://travis-ci.org/md-systems/pathauto.svg?branch=8.x-1.x)](https://travis-ci.org/md-systems/pathauto)
+#Pathauto
 
 If you are developing for this module, have a look at pathauto.api.php.
 
