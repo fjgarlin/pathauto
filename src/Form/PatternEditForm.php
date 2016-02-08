@@ -244,9 +244,7 @@ class PatternEditForm extends EntityForm {
             ]
           ]
         );
-        $new_definition = new ContextDefinition('language', 'Language');
-        $new_context = new Context($new_definition);
-        $entity->addContext($language_mapping, $new_context);
+        $entity->addRelationship($language_mapping, t('Language'));
       }
 
     }

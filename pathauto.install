@@ -200,3 +200,21 @@ function pathauto_update_8100() {
     return implode('</br>', $messages);
   }
 }
+
+/**
+ * Update relationship storage.
+ */
+function pathauto_update_8101() {
+  foreach (\Drupal::configFactory()->listAll('pathauto.pattern.') as $pattern_config_name) {
+    $pattern_config = \Drupal::configFactory()->getEditable($pattern_config_name);
+
+    $relationships = [];
+    foreach ((array) $pattern_config->get('context_definitions') as $context_definition) {
+      $relationships[$context_definition['id']] = ['label' => $context_definition['label']];
+    }
+
+    $pattern_config->clear('context_definitions');
+    $pattern_config->set('relationships', $relationships);
+    $pattern_config->save();
+  }
+}
