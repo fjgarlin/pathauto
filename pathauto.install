@@ -60,9 +60,7 @@ function pathauto_update_8001() {
  * Converts patterns from configuration objects to configuration entities.
  */
 function pathauto_update_8100() {
-  if (!\Drupal::service('module_handler')->moduleExists('ctools')) {
-    throw new UpdateException('Install Chaos tools suite (https://www.drupal.org/project/ctools) before running this database update.');
-  }
+  \Drupal::service('module_installer')->install(['ctools']);
 
   $messages = array();
   /** @var \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entity_bundle_info */
