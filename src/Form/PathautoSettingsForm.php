@@ -46,7 +46,6 @@ class PathautoSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    module_load_include('inc', 'pathauto');
     $config = $this->config('pathauto.settings');
 
     $form = array();
