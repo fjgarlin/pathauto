@@ -160,7 +160,7 @@ class PathautoSettingsForm extends ConfigFormBase {
     foreach ($punctuation as $name => $details) {
       // Use the value from config if it exists.
       if ($config->get('punctuation.' . $name) !== NULL) {
-        $details['default'] = $config->get('punctuation.' . $name) !== NULL;
+        $details['default'] = $config->get('punctuation.' . $name);
       }
       else {
         // Otherwise use the correct default.
