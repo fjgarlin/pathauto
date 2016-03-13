@@ -117,8 +117,7 @@ class PathautoSettingsFormWebTest extends WebTestBase {
     $this->drupalGet('/admin/config/search/path/settings');
     $this->assertNoFieldChecked('edit-verbose');
     $this->assertField('edit-separator', $this->defaultFormValues['separator']);
-    $this->assertNoFieldChecked('edit-case-0');
-    $this->assertFieldChecked('edit-case-1');
+    $this->assertFieldChecked('edit-case');
     $this->assertField('edit-max-length', $this->defaultFormValues['max_length']);
     $this->assertField('edit-max-component-length', $this->defaultFormValues['max_component_length']);
     $this->assertFieldChecked('edit-update-action-2');
@@ -157,7 +156,7 @@ class PathautoSettingsFormWebTest extends WebTestBase {
 
     // Ensure the character case setting works correctly.
     // Leave case the same as source token values.
-    $this->checkAlias('My awesome Content', '/content/My-awesome-Content', array('case' => '0'));
+    $this->checkAlias('My awesome Content', '/content/My-awesome-Content', array('case' => FALSE));
     $this->checkAlias('Change Lower', '/content/change-lower', array('case' => '1'));
 
     // Ensure the maximum alias length is working.
