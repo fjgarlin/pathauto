@@ -47,7 +47,7 @@ class PathautoSettingsFormWebTest extends WebTestBase {
     'update_action' => '2',
     'transliterate' => '1',
     'reduce_ascii' => FALSE,
-    'ignore_words' => ', in, is,that, the  , this, with, ',
+    'ignore_words' => 'a, an, as, at, before, but, by, for, from, is, in, into, like, of, off, on, onto, per, since, than, the, this, that, to, up, via, with',
   );
 
   /**
@@ -158,7 +158,7 @@ class PathautoSettingsFormWebTest extends WebTestBase {
     // Ensure the character case setting works correctly.
     // Leave case the same as source token values.
     $this->checkAlias('My awesome Content', '/content/My-awesome-Content', array('case' => '0'));
-    $this->checkAlias('Change to Lower', '/content/change-to-lower', array('case' => '1'));
+    $this->checkAlias('Change Lower', '/content/change-lower', array('case' => '1'));
 
     // Ensure the maximum alias length is working.
     $this->checkAlias('My awesome Content', '/content/my-awesome', array('max_length' => '23'));
@@ -167,8 +167,8 @@ class PathautoSettingsFormWebTest extends WebTestBase {
     $this->checkAlias('My awesome Content', '/content/my', array('max_component_length' => '2'));
 
     // Ensure transliteration option is working.
-    $this->checkAlias('è é à ö ä ü', '/content/e-e-a-o-a-u', array('transliterate' => '1'));
-    $this->checkAlias('è é à ä ö ü', '/content/è-é-à-ä-ö-ü', array('transliterate' => FALSE));
+    $this->checkAlias('è é àl ö äl ü', '/content/e-e-al-o-al-u', array('transliterate' => '1'));
+    $this->checkAlias('è é àl äl ö ü', '/content/è-é-àl-äl-ö-ü', array('transliterate' => FALSE));
 
     $ignore_words = 'a, new, very, should';
     $this->checkAlias('a very new alias to test', '/content/alias-to-test', array('ignore_words' => $ignore_words));
@@ -184,8 +184,8 @@ class PathautoSettingsFormWebTest extends WebTestBase {
       $settings[$key] = PathautoGeneratorInterface::PUNCTUATION_REPLACE;
     }
 
-    $title = 'a"b`c,d.e-f_g:h;i|j{k[l}m]n+o=p*q%r^s$t#u!v~w(x)y?z>1/2\3';
-    $alias = '/content/a-b-c-d-e-f-g-h-i-j-k-l-m-n-o-p-q-r-s-t-u-v-w-x-y-z-1-2-3';
+    $title = 'aa"b`c,d.e-f_g:h;i|j{k[l}m]n+o=p*q%r^s$t#u!v~w(x)y?z>1/2\3';
+    $alias = '/content/aa-b-c-d-e-f-g-h-i-j-k-l-m-n-o-p-q-r-s-t-u-v-w-x-y-z-1-2-3';
     $this->checkAlias($title, $alias, $settings);
 
     // Test the removal of punctuations.
@@ -204,8 +204,8 @@ class PathautoSettingsFormWebTest extends WebTestBase {
       $settings[$key] = PathautoGeneratorInterface::PUNCTUATION_DO_NOTHING;
     }
 
-    $title = 'a"b`c,d.e-f_g:h;i|j{k[l}m]n+o=p*q%r^s$t#u!v~w(x)y?z>1/2\3';
-    $alias = '/content/a"b`c,d.e-f_g:h;i|j{k[l}m]n+o=p*q%r^s$t#u!v~w(x)y?z>1/2\3';
+    $title = 'al"b`c,d.e-f_g:h;i|j{k[l}m]n+o=p*q%r^s$t#u!v~w(x)y?z>1/2\3';
+    $alias = '/content/al"b`c,d.e-f_g:h;i|j{k[l}m]n+o=p*q%r^s$t#u!v~w(x)y?z>1/2\3';
     $this->checkAlias($title, $alias, $settings);
   }
 

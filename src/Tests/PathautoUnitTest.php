@@ -170,22 +170,23 @@ class PathautoUnitTest extends KernelTestBase {
    */
   public function testCleanString() {
 
-    $config = $this->config('pathauto.settings');
+    // Test with default settings defined in pathauto.settings.yml.
+    $this->installConfig(array('pathauto'));
+    \Drupal::service('pathauto.generator')->resetCaches();
 
     $tests = array();
-    $config->set('ignore_words', ', in, is,that, the  , this, with, ');
-    $config->set('max_component_length', 35);
-    $config->set('transliterate', TRUE);
-    $config->save();
-    \Drupal::service('pathauto.generator')->resetCaches();
 
     // Test the 'ignored words' removal.
     $tests['this'] = 'this';
     $tests['this with that'] = 'this-with-that';
     $tests['this thing with that thing'] = 'thing-thing';
 
-    // Test length truncation and duplicate separator removal.
-    $tests[' - Pathauto is the greatest - module ever in Drupal hiarticle - '] = 'pathauto-greatest-module-ever';
+    // Test 'ignored words' removal and duplicate separator removal.
+    $tests[' - Pathauto is the greatest - module ever - '] = 'pathauto-greatest-module-ever';
+
+    // Test length truncation and lowering of strings.
+    $long_string = $this->randomMachineName(120);
+    $tests[$long_string] = strtolower(substr($long_string, 0, 100));
 
     // Test that HTML tags are removed.
     $tests['This <span class="text">text</span> has <br /><a href="http://example.com"><strong>HTML tags</strong></a>.'] = 'text-has-html-tags';

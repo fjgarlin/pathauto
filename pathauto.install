@@ -240,3 +240,15 @@ function pathauto_update_8102() {
     }
   }
 }
+
+/**
+ * Fix invalid default value for ignore_words.
+ */
+function pathauto_update_8103() {
+  $config_factory = \Drupal::configFactory();
+  $config = $config_factory->getEditable('pathauto.settings');
+  $ignore_words = $config->get('ignore_words');
+  if ($ignore_words === ', in, is,that, the  , this, with, ') {
+    $config->set('ignore_words', 'a, an, as, at, before, but, by, for, from, is, in, into, like, of, off, on, onto, per, since, than, the, this, that, to, up, via, with')->save(TRUE);
+  }
+}
