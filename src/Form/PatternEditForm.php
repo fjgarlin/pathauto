@@ -12,8 +12,6 @@ use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
-use Drupal\Core\Plugin\Context\Context;
-use Drupal\Core\Plugin\Context\ContextDefinition;
 use Drupal\pathauto\AliasTypeManager;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -193,6 +191,12 @@ class PatternEditForm extends EntityForm {
         'exists' => 'Drupal\pathauto\Entity\PathautoPattern::load',
       ),
     );
+
+    $form['status'] = [
+      '#title' => $this->t('Enabled'),
+      '#type' => 'checkbox',
+      '#default_value' => $this->entity->status(),
+    ];
 
     return parent::buildForm($form, $form_state);
   }

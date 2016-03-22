@@ -11,8 +11,6 @@ use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Language\Language;
 use Drupal\Core\Language\LanguageInterface;
-use Drupal\Core\Plugin\Context\Context;
-use Drupal\Core\Plugin\Context\ContextDefinition;
 use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
@@ -458,6 +456,30 @@ class PathautoUnitTest extends KernelTestBase {
     // If it doesn't path alias result would be content/thequick-brownf-0
     $this->assertEntityAlias($node_1, '/content/thequick-brownfox');
     $this->assertEntityAlias($node_2, '/content/thequick-0');
+  }
+
+  /**
+   * Test if aliases are (not) generated with enabled/disabled patterns.
+   */
+  function testPatternStatus() {
+    // Create a node to get an alias for.
+    $title = 'Pattern enabled';
+    $alias = '/content/pattern-enabled';
+    $node1 = $this->drupalCreateNode(['title' => $title, 'type' => 'page']);
+    $this->assertEntityAlias($node1, $alias);
+
+    // Disable the pattern, save the node again and make sure the alias is still
+    // working.
+    $this->nodePattern->setStatus(FALSE)->save();
+
+    $node1->save();
+    $this->assertEntityAlias($node1, $alias);
+
+    // Create a new node with disabled pattern and make sure there is no new
+    // alias created.
+    $title = 'Pattern disabled';
+    $node2 = $this->drupalCreateNode(['title' => $title, 'type' => 'page']);
+    $this->assertNoEntityAlias($node2);
   }
 
   /**

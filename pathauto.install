@@ -252,3 +252,16 @@ function pathauto_update_8103() {
     $config->set('ignore_words', 'a, an, as, at, before, but, by, for, from, is, in, into, like, of, off, on, onto, per, since, than, the, this, that, to, up, via, with')->save(TRUE);
   }
 }
+
+/*
+ * Resave patterns so that lookup keys are updated.
+ */
+function pathauto_update_8104() {
+  \Drupal::entityTypeManager()->clearCachedDefinitions();
+  // Load all pattern configuration entities and save them, so that the new
+  // status lookup keys are saved.
+  foreach (\Drupal::configFactory()->listAll('pathauto.pattern.') as $pattern_config_name) {
+    $pattern_config = \Drupal::configFactory()->getEditable($pattern_config_name);
+    $pattern_config->save();
+  }
+}
