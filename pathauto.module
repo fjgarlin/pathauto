@@ -21,6 +21,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Field\BaseFieldDefinition;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\pathauto\PathautoState;
 
@@ -165,4 +166,30 @@ function pathauto_entity_base_field_info_alter(&$fields, EntityTypeInterface $en
     // accessed even if there is no alias being set.
     $fields['path']->setComputed(TRUE);
   }
+}
+
+/**
+ * Validate the pattern field, to ensure it doesn't contain any characters that
+ * are invalid in URLs
+ */
+function pathauto_pattern_validate($element, FormStateInterface $form_state) {
+
+  if (isset($element['#value'])) {
+    $title = empty($element['#title']) ? $element['#parents'][0] : $element['#title'];
+    $invalid_characters = ['#', '?', '&'];
+    $invalid_characters_used = [];
+
+    foreach($invalid_characters as $invalid_character) {
+      if (strpos($element['#value'], $invalid_character) !== FALSE) {
+        $invalid_characters_used[] = $invalid_character;
+      }
+    }
+
+    if (!empty($invalid_characters_used)) {
+      $form_state->setError($element, t('The %element-title is using the following invalid characters: @invalid-characters.', array('%element-title' => $title, '@invalid-characters' => implode(', ', $invalid_characters_used))));
+    }
+  }
+
+  return $element;
+
 }

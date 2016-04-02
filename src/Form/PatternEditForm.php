@@ -116,7 +116,7 @@ class PatternEditForm extends EntityForm {
         '#default_value' => $this->entity->getPattern(),
         '#size' => 65,
         '#maxlength' => 1280,
-        '#element_validate' => array('token_element_validate'),
+        '#element_validate' => array('token_element_validate', 'pathauto_pattern_validate'),
         '#after_build' => array('token_element_validate'),
         '#token_types' => $alias_type->getTokenTypes(),
         '#min_tokens' => 1,
