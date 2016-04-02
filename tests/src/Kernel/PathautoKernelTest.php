@@ -2,10 +2,10 @@
 
 /**
  * @file
- * Contains \Drupal\pathauto\Tests\PathautoUnitTest.
+ * Contains \Drupal\Tests\pathauto\Kernel\PathautoKernelTest.
  */
 
-namespace Drupal\pathauto\Tests;
+namespace Drupal\Tests\pathauto\Kernel;
 
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\Unicode;
@@ -17,7 +17,8 @@ use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\node\Entity\NodeType;
 use Drupal\pathauto\PathautoGeneratorInterface;
 use Drupal\pathauto\PathautoState;
-use Drupal\simpletest\KernelTestBase;
+use Drupal\pathauto\Tests\PathautoTestHelperTrait;
+use Drupal\KernelTests\KernelTestBase;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
 
@@ -26,7 +27,7 @@ use Drupal\taxonomy\Entity\Vocabulary;
  *
  * @group pathauto
  */
-class PathautoUnitTest extends KernelTestBase {
+class PathautoKernelTest extends KernelTestBase {
 
   use PathautoTestHelperTrait;
 
