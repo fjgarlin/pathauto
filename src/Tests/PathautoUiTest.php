@@ -99,7 +99,7 @@ class PathautoUiTest extends WebTestBase {
       'id' => 'page_pattern',
     );
     $this->drupalPostForm(NULL, $edit, 'Save');
-    $this->assertText('The Path pattern is using the following invalid tokens: [user:name], [term:name].');
+    $this->assertText('Path pattern is using the following invalid tokens: [user:name], [term:name].');
     $this->assertNoText('The configuration options have been saved.');
 
     $edit['pattern'] = '#[node:title]';
