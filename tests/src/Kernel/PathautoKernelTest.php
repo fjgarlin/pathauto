@@ -165,6 +165,29 @@ class PathautoKernelTest extends KernelTestBase {
   }
 
   /**
+   * Test potential conflicts with the same alias in different languages.
+   */
+  public function testSameTitleDifferentLanguages() {
+    // Create two English articles with the same title.
+    $edit = [
+      'title' => 'Sample page',
+      'type' => 'page',
+      'langcode' => 'en',
+    ];
+    $node1 = $this->drupalCreateNode($edit);
+    $this->assertEntityAlias($node1, '/content/sample-page', 'en');
+
+    $node2 = $this->drupalCreateNode($edit);
+    $this->assertEntityAlias($node2, '/content/sample-page-0', 'en');
+
+    // Now, create a French article with the same title, and verify that it gets
+    // the basic alias with the correct langcode.
+    $edit['langcode'] = 'fr';
+    $node3 = $this->drupalCreateNode($edit);
+    $this->assertEntityAlias($node3, '/content/sample-page', 'fr');
+  }
+
+  /**
    * Test pathauto_cleanstring().
    */
   public function testCleanString() {
