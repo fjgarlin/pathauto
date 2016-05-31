@@ -14,6 +14,8 @@ use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\pathauto\Entity\PathautoPattern;
 use Drupal\pathauto\PathautoPatternInterface;
 use Drupal\taxonomy\VocabularyInterface;
+use Drupal\taxonomy\Entity\Vocabulary;
+use Drupal\taxonomy\Entity\Term;
 
 /**
  * Helper test class with some added functions for testing.
@@ -151,7 +153,7 @@ trait PathautoTestHelperTrait {
       'name' => $name,
       'vid' => $name,
     );
-    $vocabulary = entity_create('taxonomy_vocabulary', $values);
+    $vocabulary = Vocabulary::create($values);
     $vocabulary->save();
 
     return $vocabulary;
@@ -163,7 +165,7 @@ trait PathautoTestHelperTrait {
       'vid' => $vocabulary->id(),
     );
 
-    $term = entity_create('taxonomy_term', $values);
+    $term = Term::create($values);
     $term->save();
     return $term;
   }

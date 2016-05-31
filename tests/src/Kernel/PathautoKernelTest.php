@@ -21,6 +21,8 @@ use Drupal\pathauto\Tests\PathautoTestHelperTrait;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
+use Drupal\node\Entity\Node;
+use Drupal\user\Entity\User;
 
 /**
  * Unit tests for Pathauto functions.
@@ -68,7 +70,7 @@ class PathautoKernelTest extends KernelTestBase {
 
     \Drupal::service('router.builder')->rebuild();
 
-    $this->currentUser = entity_create('user', array('name' => $this->randomMachineName()));
+    $this->currentUser = User::create(array('name' => $this->randomMachineName()));
     $this->currentUser->save();
   }
 
@@ -459,7 +461,7 @@ class PathautoKernelTest extends KernelTestBase {
     $edit['pass']   = user_password();
     $edit['path'] = array('pathauto' => TRUE);
     $edit['status'] = 1;
-    $account = entity_create('user', $edit);
+    $account = User::create($edit);
     $account->save();
     $this->assertEntityAlias($account, '/users/test-user');
   }
@@ -522,7 +524,7 @@ class PathautoKernelTest extends KernelTestBase {
       'type'      => 'page',
     );
 
-    $node = entity_create('node', $settings);
+    $node = Node::create($settings);
     $node->save();
 
     return $node;
