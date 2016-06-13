@@ -94,7 +94,7 @@ class PathautoSettingsForm extends ConfigFormBase {
 
     $description = t('What should Pathauto do when updating an existing content item which already has an alias?');
     if (\Drupal::moduleHandler()->moduleExists('redirect')) {
-      $description .= ' ' . t('The <a href=":url">Redirect module settings</a> affect whether a redirect is created when an alias is deleted.', array(':url' => \Drupal::url('redirect.settings')));
+      $description .= ' ' . t('The <a href=":url">Redirect module settings</a> affect whether a redirect is created when an alias is deleted.', array(':url' => Url::fromRoute('redirect.settings')->toString()));
     }
     else {
       $description .= ' ' . t('Considering installing the <a href=":url">Redirect module</a> to get redirects when your aliases change.', array(':url' => 'http://drupal.org/project/redirect'));

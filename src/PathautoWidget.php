@@ -9,6 +9,7 @@ namespace Drupal\pathauto;
 use Drupal\Core\Field\FieldItemListInterface;
 use Drupal\path\Plugin\Field\FieldWidget\PathWidget;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Url;
 
 /**
  * Extends the core path widget.
@@ -50,7 +51,7 @@ class PathautoWidget extends PathWidget {
       '#type' => 'checkbox',
       '#title' => $this->t('Generate automatic URL alias'),
       '#default_value' => $entity->path->pathauto,
-      '#description' => $this->t('Uncheck this to create a custom alias below. <a href="@admin_link">Configure URL alias patterns.</a>', array('@admin_link' => \Drupal::url('entity.pathauto_pattern.collection'))),
+      '#description' => $this->t('Uncheck this to create a custom alias below. <a href="@admin_link">Configure URL alias patterns.</a>', array('@admin_link' => Url::fromRoute('entity.pathauto_pattern.collection')->toString())),
       '#weight' => -1,
     );
 
