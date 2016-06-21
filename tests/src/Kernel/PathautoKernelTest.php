@@ -156,7 +156,7 @@ class PathautoKernelTest extends KernelTestBase {
       ),
     );
     foreach ($tests as $test) {
-      $entity = \Drupal::entityManager()->getStorage($test['entity'])->create($test['values']);
+      $entity = \Drupal::entityTypeManager()->getStorage($test['entity'])->create($test['values']);
       $entity->save();
       $actual = \Drupal::service('pathauto.generator')->getPatternByEntity($entity);
       $this->assertIdentical($actual->getPattern(), $test['expected'], t("Correct pattern returned for @entity_type with @values", array(

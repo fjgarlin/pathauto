@@ -186,7 +186,7 @@ trait PathautoTestHelperTrait {
     if ($reset) {
       // @todo - implement cache reset.
     }
-    $terms = \Drupal::entityManager()->getStorage('taxonomy_term')->loadByProperties(array('name' => $name));
+    $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(array('name' => $name));
     return !empty($terms) ? reset($terms) : FALSE;
   }
 }

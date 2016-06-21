@@ -106,7 +106,7 @@ class PathautoBulkUpdateTest extends WebTestBase {
     // Delete its alias and Pathauto metadata.
     \Drupal::service('pathauto.alias_storage_helper')->deleteEntityPathAll($node);
     $node->path->first()->get('pathauto')->purge();
-    \Drupal::entityManager()->getStorage('node')->resetCache(array($node->id()));
+    \Drupal::entityTypeManager()->getStorage('node')->resetCache(array($node->id()));
 
     // Execute bulk generation.
     // Bulk create aliases.

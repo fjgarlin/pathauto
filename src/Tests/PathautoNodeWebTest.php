@@ -189,7 +189,7 @@ class PathautoNodeWebTest extends WebTestBase {
     $node->save();
 
     // Ensure that the pathauto field was saved to the database.
-    \Drupal::entityManager()->getStorage('node')->resetCache();
+    \Drupal::entityTypeManager()->getStorage('node')->resetCache();
     $node = Node::load($node->id());
     $this->assertIdentical($node->path->pathauto, PathautoState::SKIP);
 
@@ -230,13 +230,13 @@ class PathautoNodeWebTest extends WebTestBase {
     $this->assertNoEntityAliasExists($node, '/content/node-version-three');
 
     // Programatically save the node with an automatic alias.
-    \Drupal::entityManager()->getStorage('node')->resetCache();
+    \Drupal::entityTypeManager()->getStorage('node')->resetCache();
     $node = Node::load($node->id());
     $node->path->pathauto = PathautoState::CREATE;
     $node->save();
 
     // Ensure that the pathauto field was saved to the database.
-    \Drupal::entityManager()->getStorage('node')->resetCache();
+    \Drupal::entityTypeManager()->getStorage('node')->resetCache();
     $node = Node::load($node->id());
     $this->assertIdentical($node->path->pathauto, PathautoState::CREATE);
 
