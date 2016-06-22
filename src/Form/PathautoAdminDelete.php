@@ -69,8 +69,8 @@ class PathautoAdminDelete extends FormBase {
       '#description' => t('Delete all aliases. Number of aliases which will be deleted: %count.', array('%count' => $total_count)),
     );
 
-    // Next, iterate over all alias types
-    $definitions = $this->aliasTypeManager->getDefinitions();
+    // Next, iterate over all visible alias types.
+    $definitions = $this->aliasTypeManager->getVisibleDefinitions();
 
     foreach ($definitions as $id => $definition) {
       /** @var \Drupal\pathauto\AliasTypeInterface $alias_type */

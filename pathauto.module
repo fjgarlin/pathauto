@@ -71,7 +71,7 @@ function pathauto_help($route_name, RouteMatchInterface $route_match) {
       return $output;
 
     case 'entity.pathauto_pattern.add_form':
-      $output = '<p>' . t('You need to select a pattern type, then a pattern and filter, and a label.') . '</p>';
+      $output = '<p>' . t('You need to select a pattern type, then a pattern and filter, and a label. Additional types can be enabled on the <a href=":settings">Settings</a> page.', [':settings' => Url::fromRoute('pathauto.settings.form')->toString()]) . '</p>';
       return $output;
 
     case 'pathauto.bulk.update.form':
@@ -143,21 +143,24 @@ function pathauto_field_widget_info_alter(&$widgets) {
  * Implements hook_entity_base_field_info().
  */
 function pathauto_entity_base_field_info(EntityTypeInterface $entity_type) {
-  // @todo: Make this configurable and/or remove if
-  //   https://drupal.org/node/476294 is resolved.
-  if ($entity_type->id() === 'user') {
-    $fields['path'] = BaseFieldDefinition::create('path')
-      ->setCustomStorage(TRUE)
-      ->setLabel(t('URL alias'))
-      ->setTranslatable(TRUE)
-      ->setComputed(TRUE)
-      ->setDisplayOptions('form', array(
-        'type' => 'path',
-        'weight' => 30,
-      ))
-      ->setDisplayConfigurable('form', TRUE);
+  $config = \Drupal::config('pathauto.settings');
+  // Verify that the configuration data isn't null (as is the case before the
+  // module's initialization, in tests), so that in_array() won't fail.
+  if ($enabled_entity_types = $config->get('enabled_entity_types')) {
+    if (in_array($entity_type->id(), $enabled_entity_types)) {
+      $fields['path'] = BaseFieldDefinition::create('path')
+        ->setCustomStorage(TRUE)
+        ->setLabel(t('URL alias'))
+        ->setTranslatable(TRUE)
+        ->setComputed(TRUE)
+        ->setDisplayOptions('form', array(
+          'type' => 'path',
+          'weight' => 30,
+        ))
+        ->setDisplayConfigurable('form', TRUE);
 
-    return $fields;
+      return $fields;
+    }
   }
 }
 

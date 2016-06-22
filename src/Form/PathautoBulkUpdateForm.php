@@ -67,7 +67,7 @@ class PathautoBulkUpdateForm extends FormBase {
       '#default_value' => array(),
     );
 
-    $definitions = $this->aliasTypeManager->getDefinitions();
+    $definitions = $this->aliasTypeManager->getVisibleDefinitions();
 
     foreach ($definitions as $id => $definition) {
       $alias_type = $this->aliasTypeManager->createInstance($id);
