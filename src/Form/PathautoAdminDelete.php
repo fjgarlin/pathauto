@@ -56,7 +56,7 @@ class PathautoAdminDelete extends FormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['delete'] = array(
       '#type' => 'fieldset',
-      '#title' => t('Choose aliases to delete'),
+      '#title' => $this->t('Choose aliases to delete'),
       '#tree' => TRUE,
     );
 
@@ -64,9 +64,9 @@ class PathautoAdminDelete extends FormBase {
     $total_count = db_query('SELECT count(1) FROM {url_alias}')->fetchField();
     $form['delete']['all_aliases'] = array(
       '#type' => 'checkbox',
-      '#title' => t('All aliases'),
+      '#title' => $this->t('All aliases'),
       '#default_value' => FALSE,
-      '#description' => t('Delete all aliases. Number of aliases which will be deleted: %count.', array('%count' => $total_count)),
+      '#description' => $this->t('Delete all aliases. Number of aliases which will be deleted: %count.', array('%count' => $total_count)),
     );
 
     // Next, iterate over all visible alias types.
@@ -80,7 +80,7 @@ class PathautoAdminDelete extends FormBase {
         '#type' => 'checkbox',
         '#title' => (string) $definition['label'],
         '#default_value' => FALSE,
-        '#description' => t('Delete aliases for all @label. Number of aliases which will be deleted: %count.', array('@label' => (string) $definition['label'], '%count' => $count)),
+        '#description' => $this->t('Delete aliases for all @label. Number of aliases which will be deleted: %count.', array('@label' => (string) $definition['label'], '%count' => $count)),
       );
     }
 
@@ -88,7 +88,7 @@ class PathautoAdminDelete extends FormBase {
     $form['warning'] = array('#value' => '<p>' . t('<strong>Note:</strong> there is no confirmation. Be sure of your action before clicking the "Delete aliases now!" button.<br />You may want to make a backup of the database and/or the url_alias table prior to using this feature.') . '</p>');
     $form['buttons']['submit'] = array(
       '#type' => 'submit',
-      '#value' => t('Delete aliases now!'),
+      '#value' => $this->t('Delete aliases now!'),
     );
 
     return $form;
@@ -109,7 +109,7 @@ class PathautoAdminDelete extends FormBase {
       db_delete('url_alias')
         ->condition('source', db_like($alias_type->getSourcePrefix()) . '%', 'LIKE')
         ->execute();
-      drupal_set_message(t('All of your %label path aliases have been deleted.', array('%label' => $alias_type->getLabel())));
+      drupal_set_message($this->t('All of your %label path aliases have been deleted.', array('%label' => $alias_type->getLabel())));
     }
     $form_state->setRedirect('pathauto.admin.delete');
   }

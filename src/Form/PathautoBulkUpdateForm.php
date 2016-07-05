@@ -62,7 +62,7 @@ class PathautoBulkUpdateForm extends FormBase {
 
     $form['update'] = array(
       '#type' => 'checkboxes',
-      '#title' => t('Select the types of un-aliased paths for which to generate URL aliases'),
+      '#title' => $this->t('Select the types of un-aliased paths for which to generate URL aliases'),
       '#options' => array(),
       '#default_value' => array(),
     );
@@ -79,7 +79,7 @@ class PathautoBulkUpdateForm extends FormBase {
     $form['actions']['#type'] = 'actions';
     $form['actions']['submit'] = array(
       '#type' => 'submit',
-      '#value' => t('Update'),
+      '#value' => $this->t('Update'),
     );
 
     return $form;
@@ -90,7 +90,7 @@ class PathautoBulkUpdateForm extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
     $batch = array(
-      'title' => t('Bulk updating URL aliases'),
+      'title' => $this->t('Bulk updating URL aliases'),
       'operations' => array(
         array('Drupal\pathauto\Form\PathautoBulkUpdateForm::batchStart', array()),
       ),
