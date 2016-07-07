@@ -88,7 +88,7 @@ class PathautoNodeWebTest extends WebTestBase {
       'path[0][alias]' => $manual_alias,
     );
     $this->drupalPostForm($node->toUrl('edit-form'), $edit, t('Save and keep published'));
-    $this->assertRaw(t('@type %title has been updated.', array('@type' => 'page', '%title' => $title)));
+    $this->assertText(t('@type @title has been updated.', array('@type' => 'page', '@title' => $title)));
 
     // Check that the automatic alias checkbox is now unchecked by default.
     $this->drupalGet("node/{$node->id()}/edit");
@@ -97,7 +97,7 @@ class PathautoNodeWebTest extends WebTestBase {
 
     // Submit the node form with the default values.
     $this->drupalPostForm(NULL, array('path[0][pathauto]' => FALSE), t('Save and keep published'));
-    $this->assertRaw(t('@type %title has been updated.', array('@type' => 'page', '%title' => $title)));
+    $this->assertText(t('@type @title has been updated.', array('@type' => 'page', '@title' => $title)));
 
     // Test that the old (automatic) alias has been deleted and only accessible
     // through the new (manual) alias.
@@ -160,7 +160,7 @@ class PathautoNodeWebTest extends WebTestBase {
       // @todo - here we expect the $node1 to be at 0 position, any better way?
       'node_bulk_form[0]' => TRUE,
     );
-    $this->drupalPostForm('admin/content', $edit, t('Apply'));
+    $this->drupalPostForm('admin/content', $edit, t('Apply to selected items'));
     $this->assertText('Update URL alias was applied to 1 item.');
 
     $this->assertEntityAlias($node1, '/content/' . $node1->getTitle());

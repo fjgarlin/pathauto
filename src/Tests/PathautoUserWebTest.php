@@ -87,7 +87,7 @@ class PathautoUserWebTest extends WebTestBase {
       'action' => 'pathauto_update_alias_user',
       "user_bulk_form[$key]" => TRUE,
     );
-    $this->drupalPostForm('admin/people', $edit, t('Apply'));
+    $this->drupalPostForm('admin/people', $edit, t('Apply to selected items'));
     $this->assertText('Update URL alias was applied to 1 item.');
 
     $this->assertEntityAlias($account, '/users/' . Unicode::strtolower($account->getUsername()));
