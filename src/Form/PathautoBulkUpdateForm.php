@@ -110,7 +110,8 @@ class PathautoBulkUpdateForm extends FormBase {
    * Batch callback; count the current number of URL aliases for comparison later.
    */
   public static function batchStart(&$context) {
-    $context['results']['count_before'] = db_select('url_alias')->countQuery()->execute()->fetchField();
+    $storage_helper = \Drupal::service('pathauto.alias_storage_helper');
+    $context['results']['count_before'] =  $storage_helper->countAll();
   }
 
   /**
@@ -131,7 +132,8 @@ class PathautoBulkUpdateForm extends FormBase {
     if ($success) {
       // Count the current number of URL aliases after the batch is completed
       // and compare to the count before the batch started.
-      $results['count_after'] = db_select('url_alias')->countQuery()->execute()->fetchField();
+      $storage_helper = \Drupal::service('pathauto.alias_storage_helper');
+      $results['count_after'] = $storage_helper->countAll();
       $results['count_changed'] = max($results['count_after'] - $results['count_before'], 0);
       if ($results['count_changed']) {
         drupal_set_message(\Drupal::translation()->formatPlural($results['count_changed'], 'Generated 1 URL alias.', 'Generated @count URL aliases.'));

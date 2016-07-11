@@ -61,7 +61,8 @@ class PathautoAdminDelete extends FormBase {
     );
 
     // First we do the "all" case.
-    $total_count = db_query('SELECT count(1) FROM {url_alias}')->fetchField();
+    $storage_helper = \Drupal::service('pathauto.alias_storage_helper');
+    $total_count = $storage_helper->countAll();
     $form['delete']['all_aliases'] = array(
       '#type' => 'checkbox',
       '#title' => $this->t('All aliases'),
@@ -75,7 +76,7 @@ class PathautoAdminDelete extends FormBase {
     foreach ($definitions as $id => $definition) {
       /** @var \Drupal\pathauto\AliasTypeInterface $alias_type */
       $alias_type = $this->aliasTypeManager->createInstance($id);
-      $count = db_query("SELECT count(1) FROM {url_alias} WHERE source LIKE :src", array(':src' => $alias_type->getSourcePrefix() . '%'))->fetchField();
+      $count =  $storage_helper->countBySourcePrefix($alias_type->getSourcePrefix());
       $form['delete']['plugins'][$id] = array(
         '#type' => 'checkbox',
         '#title' => (string) $definition['label'],
@@ -98,17 +99,14 @@ class PathautoAdminDelete extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    $storage_helper = \Drupal::service('pathauto.alias_storage_helper');
     if ($form_state->getValue(['delete', 'all_aliases'])) {
-      db_delete('url_alias')
-        ->execute();
+      $storage_helper->deleteAll();
       drupal_set_message($this->t('All of your path aliases have been deleted.'));
     }
     foreach (array_keys(array_filter($form_state->getValue(['delete', 'plugins']))) as $id) {
-      /** @var \Drupal\pathauto\AliasTypeInterface $alias_type */
       $alias_type = $this->aliasTypeManager->createInstance($id);
-      db_delete('url_alias')
-        ->condition('source', db_like($alias_type->getSourcePrefix()) . '%', 'LIKE')
-        ->execute();
+      $storage_helper->deleteBySourcePrefix((string) $alias_type->getSourcePrefix());
       drupal_set_message($this->t('All of your %label path aliases have been deleted.', array('%label' => $alias_type->getLabel())));
     }
     $form_state->setRedirect('pathauto.admin.delete');
