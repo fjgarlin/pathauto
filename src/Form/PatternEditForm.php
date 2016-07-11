@@ -120,6 +120,7 @@ class PatternEditForm extends EntityForm {
         '#after_build' => array('token_element_validate'),
         '#token_types' => $alias_type->getTokenTypes(),
         '#min_tokens' => 1,
+        '#required' => TRUE,
       );
 
       // Show the token help relevant to this pattern type.
