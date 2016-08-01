@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\pathauto\Tests\PathautoBulkUpdateTest.
- */
-
 namespace Drupal\pathauto\Tests;
 
 use Drupal\pathauto\PathautoState;

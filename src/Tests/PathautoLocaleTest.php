@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\pathauto\Tests\PathautoLocaleTest.
- */
-
 namespace Drupal\pathauto\Tests;
 
 use Drupal\Core\Language\Language;

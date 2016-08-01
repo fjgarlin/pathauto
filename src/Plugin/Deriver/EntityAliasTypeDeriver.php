@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\pathauto\Plugin\Deriver\EntityAliasTypeDeriver.
- */
 
 namespace Drupal\pathauto\Plugin\Deriver;
 

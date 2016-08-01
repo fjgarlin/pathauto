@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\pathauto\Tests\PathautoUserWebTest.
- */
-
 namespace Drupal\pathauto\Tests;
 use Drupal\Component\Utility\Unicode;
 use Drupal\simpletest\WebTestBase;

@@ -1,8 +1,4 @@
 <?php
-/**
- * @file
- * Contains \Drupal\pathauto\PathautoWidget.
- */
 
 namespace Drupal\pathauto;
 
@@ -79,4 +75,5 @@ class PathautoWidget extends PathWidget {
 
     return $element;
   }
+
 }

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\pathauto\Tests\PathautoNodeWebTest.
- */
-
 namespace Drupal\pathauto\Tests;
 use Drupal\pathauto\Entity\PathautoPattern;
 use Drupal\node\Entity\Node;

@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\pathauto\AliasSchemaHelper
- */
-
 namespace Drupal\pathauto;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
@@ -191,7 +186,7 @@ class AliasStorageHelper implements AliasStorageHelperInterface {
    * {@inheritdoc}
    */
   public function deleteEntityPathAll(EntityInterface $entity, $default_uri = NULL) {
-    $this->deleteBySourcePrefix('/'. $entity->toUrl('canonical')->getInternalPath());
+    $this->deleteBySourcePrefix('/' . $entity->toUrl('canonical')->getInternalPath());
     if (isset($default_uri) && $entity->toUrl('canonical')->toString() != $default_uri) {
       $this->deleteBySourcePrefix($default_uri);
     }

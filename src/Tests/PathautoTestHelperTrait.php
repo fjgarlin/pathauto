@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\pathauto\Tests\PathautoTestHelperTrait.
- */
-
 namespace Drupal\pathauto\Tests;
 
 use Drupal\Component\Utility\Unicode;
@@ -189,4 +184,5 @@ trait PathautoTestHelperTrait {
     $terms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties(array('name' => $name));
     return !empty($terms) ? reset($terms) : FALSE;
   }
+
 }

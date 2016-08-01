@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * @defgroup pathauto Pathauto: Automatically generates aliases for content
  *
  * The Pathauto module automatically generates path aliases for various kinds of
@@ -185,7 +186,7 @@ function pathauto_pattern_validate($element, FormStateInterface $form_state) {
     $invalid_characters = ['#', '?', '&'];
     $invalid_characters_used = [];
 
-    foreach($invalid_characters as $invalid_character) {
+    foreach ($invalid_characters as $invalid_character) {
       if (strpos($element['#value'], $invalid_character) !== FALSE) {
         $invalid_characters_used[] = $invalid_character;
       }

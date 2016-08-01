@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\pathauto\AliasTypeManager
- */
-
 namespace Drupal\pathauto;
 
 use Drupal\Core\Cache\CacheBackendInterface;

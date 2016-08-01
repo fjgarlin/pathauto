@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\pathauto\Form\PathautoBulkUpdateForm.
- */
-
 namespace Drupal\pathauto\Form;
 
 use Drupal\Core\Form\FormBase;
@@ -111,7 +106,7 @@ class PathautoBulkUpdateForm extends FormBase {
    */
   public static function batchStart(&$context) {
     $storage_helper = \Drupal::service('pathauto.alias_storage_helper');
-    $context['results']['count_before'] =  $storage_helper->countAll();
+    $context['results']['count_before'] = $storage_helper->countAll();
   }
 
   /**

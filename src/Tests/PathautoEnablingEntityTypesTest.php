@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\pathauto\Tests\PathautoEnablingEntityTypesTest.
- */
-
 namespace Drupal\pathauto\Tests;
 
 use Drupal\simpletest\WebTestBase;

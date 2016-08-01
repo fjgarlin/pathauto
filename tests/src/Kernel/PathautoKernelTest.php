@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\Tests\pathauto\Kernel\PathautoKernelTest.
- */
-
 namespace Drupal\Tests\pathauto\Kernel;
 
 use Drupal\Component\Utility\Html;
@@ -529,4 +524,5 @@ class PathautoKernelTest extends KernelTestBase {
 
     return $node;
   }
+
 }

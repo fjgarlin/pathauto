@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains Drupal\pathauto\AliasUniquifier
- */
-
 namespace Drupal\pathauto;
 
 use Drupal\Component\Utility\Unicode;

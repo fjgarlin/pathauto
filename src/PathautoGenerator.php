@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\pathauto\PathautoGenerator.
- */
-
 namespace Drupal\pathauto;
 
 use Drupal\Component\Utility\Unicode;
@@ -120,7 +115,7 @@ class PathautoGenerator implements PathautoGeneratorInterface {
    * @param \Drupal\Core\StringTranslation\TranslationInterface $string_translation
    *   The string translation service.
    * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   * The entity type manager
+   *   The entity type manager
    */
   public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, Token $token, AliasCleanerInterface $alias_cleaner, AliasStorageHelperInterface $alias_storage_helper, AliasUniquifierInterface $alias_uniquifier, MessengerInterface $messenger, TranslationInterface $string_translation, TokenEntityMapperInterface $token_entity_mappper, EntityTypeManagerInterface $entity_type_manager) {
     $this->configFactory = $config_factory;
@@ -360,4 +355,5 @@ class PathautoGenerator implements PathautoGeneratorInterface {
   protected function loadTermChildren($tid) {
     return $this->entityTypeManager->getStorage('taxonomy_term')->loadChildren($tid);
   }
+
 }

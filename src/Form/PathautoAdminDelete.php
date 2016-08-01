@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\pathauto\Form\PathautoAdminDelete.
- */
-
 namespace Drupal\pathauto\Form;
 
 use Drupal\Core\Form\FormBase;
@@ -76,7 +71,7 @@ class PathautoAdminDelete extends FormBase {
     foreach ($definitions as $id => $definition) {
       /** @var \Drupal\pathauto\AliasTypeInterface $alias_type */
       $alias_type = $this->aliasTypeManager->createInstance($id);
-      $count =  $storage_helper->countBySourcePrefix($alias_type->getSourcePrefix());
+      $count = $storage_helper->countBySourcePrefix($alias_type->getSourcePrefix());
       $form['delete']['plugins'][$id] = array(
         '#type' => 'checkbox',
         '#title' => (string) $definition['label'],

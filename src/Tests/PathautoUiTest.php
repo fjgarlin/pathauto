@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\pathauto\Tests\PathautoUiTest.
- */
-
 namespace Drupal\pathauto\Tests;
 
 use Drupal\simpletest\WebTestBase;
@@ -138,7 +133,7 @@ class PathautoUiTest extends WebTestBase {
     $this->assertLink(t('Delete'));
 
     $edit = array('label' => 'Test');
-    $this->drupalPostForm('/admin/config/search/path/patterns/page_pattern',$edit, t('Save'));
+    $this->drupalPostForm('/admin/config/search/path/patterns/page_pattern', $edit, t('Save'));
     $this->assertText('Pattern Test saved.');
 
     // Disable workflow.

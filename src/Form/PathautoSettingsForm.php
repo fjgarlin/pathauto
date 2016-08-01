@@ -1,10 +1,5 @@
 <?php
 
-/**
- * @file
- * Contains \Drupal\pathauto\Form\PathautoSettingsForm.
- */
-
 namespace Drupal\pathauto\Form;
 
 use Drupal\Component\Utility\SafeMarkup;
