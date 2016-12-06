@@ -148,7 +148,7 @@ class PatternEditForm extends EntityForm {
             '#type' => 'checkboxes',
             '#options' => $bundle_options,
             '#default_value' => $default_bundles,
-            '#description' => t('Check to which types this pattern should be applied. Leave empty to allow any.'),
+            '#description' => $this->t('Check to which types this pattern should be applied. Leave empty to allow any.'),
           );
         }
 
@@ -162,7 +162,7 @@ class PatternEditForm extends EntityForm {
             '#type' => 'checkboxes',
             '#options' => $language_options,
             '#default_value' => $default_languages,
-            '#description' => t('Check to which languages this pattern should be applied. Leave empty to allow any.'),
+            '#description' => $this->t('Check to which languages this pattern should be applied. Leave empty to allow any.'),
           );
         }
       }

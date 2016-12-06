@@ -144,7 +144,7 @@ class EntityAliasTypeBase extends ContextAwarePluginBase implements AliasTypeInt
     $this->bulkUpdate($ids);
     $context['sandbox']['count'] += count($ids);
     $context['sandbox']['current'] = max($ids);
-    $context['message'] = t('Updated alias for %label @id.', array('%label' => $entity_type->getLabel(), '@id' => end($ids)));
+    $context['message'] = $this->t('Updated alias for %label @id.', array('%label' => $entity_type->getLabel(), '@id' => end($ids)));
 
     if ($context['sandbox']['count'] != $context['sandbox']['total']) {
       $context['finished'] = $context['sandbox']['count'] / $context['sandbox']['total'];
