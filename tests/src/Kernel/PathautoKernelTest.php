@@ -254,11 +254,13 @@ class PathautoKernelTest extends KernelTestBase {
     $this->saveAlias('/node/1', '/node-1-alias-en', 'en');
     $this->saveAlias('/node/1', '/node-1-alias-fr', 'fr');
     $this->saveAlias('/node/2', '/node-2-alias');
+    $this->saveAlias('/node/10', '/node-10-alias');
 
     \Drupal::service('pathauto.alias_storage_helper')->deleteBySourcePrefix('/node/1');
     $this->assertNoAliasExists(array('source' => "/node/1"));
     $this->assertNoAliasExists(array('source' => "/node/1/view"));
     $this->assertAliasExists(array('source' => "/node/2"));
+    $this->assertAliasExists(array('source' => "/node/10"));
   }
 
   /**
