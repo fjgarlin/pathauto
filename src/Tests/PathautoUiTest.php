@@ -108,6 +108,12 @@ class PathautoUiTest extends WebTestBase {
     $this->assertText('The Path pattern is using the following invalid characters: #.');
     $this->assertNoText('The configuration options have been saved.');
 
+    // Checking whitespace ending of the string.
+    $edit['pattern'] = '[node:title] ';
+    $this->drupalPostForm(NULL, $edit, 'Save');
+    $this->assertText('The Path pattern doesn\'t allow the patterns ending with whitespace.');
+    $this->assertNoText('The configuration options have been saved.');
+
     // Fix the pattern, then check that it gets saved successfully.
     $edit['pattern'] = '[node:title]';
     $this->drupalPostForm(NULL, $edit, 'Save');
