@@ -109,7 +109,7 @@ class EntityAliasTypeBase extends ContextAwarePluginBase implements AliasTypeInt
   /**
    * {@inheritdoc}
    */
-  public function batchUpdate(&$context) {
+  public function batchUpdate($action, &$context) {
     if (!isset($context['sandbox']['current'])) {
       $context['sandbox']['count'] = 0;
       $context['sandbox']['current'] = 0;
@@ -121,7 +121,21 @@ class EntityAliasTypeBase extends ContextAwarePluginBase implements AliasTypeInt
     $query = db_select($entity_type->get('base_table'), 'base_table');
     $query->leftJoin('url_alias', 'ua', "CONCAT('" . $this->getSourcePrefix() . "' , base_table.$id_key) = ua.source");
     $query->addField('base_table', $id_key, 'id');
-    $query->isNull('ua.source');
+
+    switch ($action) {
+      case 'create':
+        $query->isNull('ua.source');
+        break;
+      case 'update':
+        $query->isNotNull('ua.source');
+        break;
+      case 'all':
+        // Nothing to do. We want all paths.
+        break;
+      default:
+        // Unknown action. Abort!
+        return;
+    }
     $query->condition('base_table.' . $id_key, $context['sandbox']['current'], '>');
     $query->orderBy('base_table.' . $id_key);
     $query->addTag('pathauto_bulk_update');
@@ -141,9 +155,10 @@ class EntityAliasTypeBase extends ContextAwarePluginBase implements AliasTypeInt
     $query->range(0, 25);
     $ids = $query->execute()->fetchCol();
 
-    $this->bulkUpdate($ids);
+    $updates = $this->bulkUpdate($ids);
     $context['sandbox']['count'] += count($ids);
     $context['sandbox']['current'] = max($ids);
+    $context['results']['updates'] += $updates;
     $context['message'] = $this->t('Updated alias for %label @id.', array('%label' => $entity_type->getLabel(), '@id' => end($ids)));
 
     if ($context['sandbox']['count'] != $context['sandbox']['total']) {
@@ -168,22 +183,31 @@ class EntityAliasTypeBase extends ContextAwarePluginBase implements AliasTypeInt
    *   An array of entity IDs IDs.
    * @param array $options
    *   An optional array of additional options.
+   *
+   * @return int
+   *  The number of updated URL aliases.
    */
   protected function bulkUpdate(array $ids, array $options = array()) {
     $options += array('message' => FALSE);
+    $updates = 0;
 
     $entities = $this->entityTypeManager->getStorage($this->getEntityTypeId())->loadMultiple($ids);
     foreach ($entities as $entity) {
       // Update aliases for the entity's default language and its translations.
       foreach ($entity->getTranslationLanguages() as $langcode => $language) {
         $translated_entity = $entity->getTranslation($langcode);
-        \Drupal::service('pathauto.generator')->updateEntityAlias($translated_entity, 'bulkupdate', $options);
+        $result = \Drupal::service('pathauto.generator')->updateEntityAlias($translated_entity, 'bulkupdate', $options);
+        if ($result) {
+          $updates++;
+        }
       }
     }
 
     if (!empty($options['message'])) {
       drupal_set_message(\Drupal::translation()->formatPlural(count($ids), 'Updated 1 %label URL alias.', 'Updated @count %label URL aliases.'), array('%label' => $this->getLabel()));
     }
+
+    return $updates;
   }
 
   /**
