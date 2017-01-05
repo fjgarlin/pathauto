@@ -174,6 +174,7 @@ class PatternEditForm extends EntityForm {
       '#maxlength' => 255,
       '#default_value' => $this->entity->label(),
       '#required' => TRUE,
+      '#description' => $this->t('A short name to help you identify this pattern in the patterns list.'),
     );
 
     $form['id'] = array(
