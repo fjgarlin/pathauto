@@ -2,6 +2,7 @@
 
 namespace Drupal\pathauto\Plugin\pathauto\AliasType;
 
+use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
@@ -45,6 +46,13 @@ class EntityAliasTypeBase extends ContextAwarePluginBase implements AliasTypeInt
   protected $entityTypeManager;
 
   /**
+   * The database connection.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected $database;
+
+  /**
    * The path prefix for this entity type.
    *
    * @var string
@@ -66,12 +74,15 @@ class EntityAliasTypeBase extends ContextAwarePluginBase implements AliasTypeInt
    *   The language manager service.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity manager service.
+   * @param \Drupal\Core\Database\Connection $database
+   *   The database connection.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, ModuleHandlerInterface $module_handler, LanguageManagerInterface $language_manager, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, ModuleHandlerInterface $module_handler, LanguageManagerInterface $language_manager, EntityTypeManagerInterface $entity_type_manager, Connection $database) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->moduleHandler = $module_handler;
     $this->languageManager = $language_manager;
     $this->entityTypeManager = $entity_type_manager;
+    $this->database = $database;
   }
 
   /**
@@ -84,7 +95,8 @@ class EntityAliasTypeBase extends ContextAwarePluginBase implements AliasTypeInt
       $plugin_definition,
       $container->get('module_handler'),
       $container->get('language_manager'),
-      $container->get('entity_type.manager')
+      $container->get('entity_type.manager'),
+      $container->get('database')
     );
   }
 
@@ -118,7 +130,7 @@ class EntityAliasTypeBase extends ContextAwarePluginBase implements AliasTypeInt
     $entity_type = $this->entityTypeManager->getDefinition($this->getEntityTypeId());
     $id_key = $entity_type->getKey('id');
 
-    $query = db_select($entity_type->get('base_table'), 'base_table');
+    $query = $this->database->select($entity_type->get('base_table'), 'base_table');
     $query->leftJoin('url_alias', 'ua', "CONCAT('" . $this->getSourcePrefix() . "' , base_table.$id_key) = ua.source");
     $query->addField('base_table', $id_key, 'id');
 
