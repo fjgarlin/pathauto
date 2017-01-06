@@ -129,8 +129,8 @@ class PathautoUiTest extends WebTestBase {
     $this->assertResponse(200);
     $this->assertEntityAlias($node, $alias);
 
-    // Edit workflow, set a new label for the pattern.
-    $this->drupalGet('/admin/config/search/path/patterns');
+    // Edit workflow, set a new label and weight for the pattern.
+    $this->drupalPostForm('/admin/config/search/path/patterns', ['entities[page_pattern][weight]' => '4'], t('Save'));
     $this->clickLink(t('Edit'));
     $this->assertUrl('/admin/config/search/path/patterns/page_pattern');
     $this->assertFieldByName('pattern', '[node:title]');
@@ -141,6 +141,8 @@ class PathautoUiTest extends WebTestBase {
     $edit = array('label' => 'Test');
     $this->drupalPostForm('/admin/config/search/path/patterns/page_pattern', $edit, t('Save'));
     $this->assertText('Pattern Test saved.');
+    // Check that the pattern weight did not change.
+    $this->assertOptionSelected('edit-entities-page-pattern-weight', '4');
 
     // Disable workflow.
     $this->drupalGet('/admin/config/search/path/patterns');

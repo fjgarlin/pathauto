@@ -205,6 +205,7 @@ class PatternEditForm extends EntityForm {
     /** @var \Drupal\pathauto\PathautoPatternInterface $entity */
     $entity = parent::buildEntity($form, $form_state);
 
+    // Will only be used for new patterns.
     $default_weight = 0;
 
     $alias_type = $entity->getAliasType();
@@ -250,7 +251,9 @@ class PatternEditForm extends EntityForm {
 
     }
 
-    $entity->setWeight($default_weight);
+    if ($entity->isNew()) {
+      $entity->setWeight($default_weight);
+    }
 
     return $entity;
   }
