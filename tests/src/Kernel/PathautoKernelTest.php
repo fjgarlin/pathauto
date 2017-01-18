@@ -506,6 +506,33 @@ class PathautoKernelTest extends KernelTestBase {
   }
 
   /**
+   * Tests that enabled entity types genrates the necessary fields and plugins.
+   */
+  public function testSettingChangeInvalidatesCache() {
+
+    $this->installConfig(['pathauto']);
+
+    $this->enableModules(['entity_test']);
+
+    $definitions = \Drupal::service('plugin.manager.alias_type')->getDefinitions();
+    $this->assertFalse(isset($definitions['canonical_entities:entity_test']));
+
+    $fields = \Drupal::service('entity_field.manager')->getBaseFieldDefinitions('entity_test');
+    $this->assertFalse(isset($fields['path']));
+
+    $this->config('pathauto.settings')
+      ->set('enabled_entity_types', ['user', 'entity_test'])
+      ->save();
+
+    $definitions = \Drupal::service('plugin.manager.alias_type')->getDefinitions();
+    $this->assertTrue(isset($definitions['canonical_entities:entity_test']));
+
+    $fields = \Drupal::service('entity_field.manager')->getBaseFieldDefinitions('entity_test');
+    $this->assertTrue(isset($fields['path']));
+
+  }
+
+  /**
    * Creates a node programmatically.
    *
    * @param array $settings

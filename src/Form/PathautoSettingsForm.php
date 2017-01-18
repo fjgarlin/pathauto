@@ -260,12 +260,6 @@ class PathautoSettingsForm extends ConfigFormBase {
     }
     $config->save();
 
-    // Clear cached field definitions if the values are changed.
-    if ($original_entity_types != $config->get('enabled_entity_types')) {
-      $this->entityFieldManager->clearCachedFieldDefinitions();
-      $this->aliasTypeManager->clearCachedDefinitions();
-    }
-
     parent::submitForm($form, $form_state);
   }
 
