@@ -3,6 +3,7 @@
 namespace Drupal\pathauto\Plugin\pathauto\AliasType;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
@@ -49,8 +50,8 @@ class ForumAliasType extends EntityAliasTypeBase implements ContainerFactoryPlug
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, ModuleHandlerInterface $module_handler, LanguageManagerInterface $language_manager, EntityTypeManagerInterface $entity_type_manager, ConfigFactoryInterface $config_factory) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $module_handler, $language_manager, $entity_type_manager);
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, ModuleHandlerInterface $module_handler, LanguageManagerInterface $language_manager, EntityTypeManagerInterface $entity_type_manager, Connection $database, ConfigFactoryInterface $config_factory) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $module_handler, $language_manager, $entity_type_manager, $database);
     $this->configFactory = $config_factory;
   }
 
@@ -65,6 +66,7 @@ class ForumAliasType extends EntityAliasTypeBase implements ContainerFactoryPlug
       $container->get('module_handler'),
       $container->get('language_manager'),
       $container->get('entity_type.manager'),
+      $container->get('database'),
       $container->get('config.factory')
     );
   }
