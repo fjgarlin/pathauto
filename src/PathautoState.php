@@ -75,7 +75,7 @@ class PathautoState extends TypedData {
    */
   public function persist() {
     \Drupal::keyValue($this->getCollection())
-      ->set(static::getPathautoStateKey($this->parent->getEntity()->id()), $this->value);
+      ->set(static::getPathautoStateKey($this->parent->getEntity()->id()), $this->getValue());
   }
 
   /**
