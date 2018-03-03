@@ -199,10 +199,9 @@ class PathautoSettingsForm extends ConfigFormBase {
     );
 
     $form['punctuation'] = array(
-      '#type' => 'fieldset',
+      '#type' => 'details',
       '#title' => $this->t('Punctuation'),
-      '#collapsible' => TRUE,
-      '#collapsed' => TRUE,
+      '#open' => FALSE,
       '#tree' => TRUE,
     );
 
