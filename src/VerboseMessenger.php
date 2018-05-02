@@ -3,6 +3,7 @@
 namespace Drupal\pathauto;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Messenger\MessengerInterface as CoreMessengerInterface;
 use Drupal\Core\Session\AccountInterface;
 
 /**
@@ -32,11 +33,19 @@ class VerboseMessenger implements MessengerInterface {
   protected $account;
 
   /**
+   * The messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
    * Creates a verbose messenger.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, AccountInterface $account) {
+  public function __construct(ConfigFactoryInterface $config_factory, AccountInterface $account, CoreMessengerInterface $messenger) {
     $this->configFactory = $config_factory;
     $this->account = $account;
+    $this->messenger = $messenger;
   }
 
   /**
@@ -54,7 +63,7 @@ class VerboseMessenger implements MessengerInterface {
     }
 
     if ($message) {
-      drupal_set_message($message);
+      $this->messenger->addMessage($message);
     }
 
     return TRUE;

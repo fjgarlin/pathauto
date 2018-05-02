@@ -6,6 +6,7 @@ type: module
 dependencies:
 - ctools:ctools
 - drupal:path
+- drupal:system (>=8.5)
 - token:token
 
 configure: entity.pathauto_pattern.collection
