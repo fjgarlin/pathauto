@@ -22,8 +22,6 @@ pathauto.settings:
       type: boolean
     reduce_ascii:
       type: boolean
-    ignore_words:
-      type: string
     case:
       type: boolean
     ignore_words:
