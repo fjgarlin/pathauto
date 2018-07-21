@@ -195,7 +195,13 @@ class PathautoSettingsForm extends ConfigFormBase {
       '#title' => $this->t('Strings to Remove'),
       '#default_value' => $config->get('ignore_words'),
       '#description' => $this->t('Words to strip out of the URL alias, separated by commas. Do not use this to remove punctuation.'),
-      '#wysiwyg' => FALSE,
+    );
+
+    $form['safe_tokens'] = array(
+      '#type' => 'textarea',
+      '#title' => $this->t('Safe tokens'),
+      '#default_value' => implode(', ', $config->get('safe_tokens')),
+      '#description' => $this->t('List of tokens that are safe to use in alias patterns and do not need to be cleaned. For example urls, aliases, machine names. Separated with a comma.'),
     );
 
     $form['punctuation'] = array(
@@ -253,6 +259,9 @@ class PathautoSettingsForm extends ConfigFormBase {
           }
         }
         $value = $enabled_entity_types;
+      }
+      elseif ($key == 'safe_tokens') {
+        $value = array_filter(array_map('trim', explode(',', $value)));
       }
       $config->set($key, $value);
     }

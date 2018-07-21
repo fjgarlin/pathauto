@@ -335,7 +335,9 @@ class AliasCleaner implements AliasCleanerInterface {
   public function cleanTokenValues(&$replacements, $data = array(), $options = array()) {
     foreach ($replacements as $token => $value) {
       // Only clean non-path tokens.
-      if (!preg_match('/(path|alias|url|url-brief)\]$/', $token)) {
+      $config = $this->configFactory->get('pathauto.settings');
+      $safe_tokens = implode('|', (array) $config->get('safe_tokens'));
+      if (!preg_match('/:(' . $safe_tokens . ')(:|\]$)/', $token)) {
         $replacements[$token] = $this->cleanString($value, $options);
       }
     }
