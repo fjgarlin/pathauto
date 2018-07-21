@@ -247,7 +247,7 @@ class AliasCleaner implements AliasCleanerInterface {
     // Get rid of words that are on the ignore list.
     if ($this->cleanStringCache['ignore_words_regex']) {
       $words_removed = $this->cleanStringCache['ignore_words_callback']($this->cleanStringCache['ignore_words_regex'], '', $output);
-      if (Unicode::strlen(trim($words_removed)) > 0) {
+      if (mb_strlen(trim($words_removed)) > 0) {
         $output = $words_removed;
       }
     }
@@ -260,7 +260,7 @@ class AliasCleaner implements AliasCleanerInterface {
 
     // Optionally convert to lower case.
     if ($this->cleanStringCache['lowercase']) {
-      $output = Unicode::strtolower($output);
+      $output = mb_strtolower($output);
     }
 
     // Shorten to a logical place based on word boundaries.

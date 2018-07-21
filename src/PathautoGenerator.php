@@ -2,7 +2,6 @@
 
 namespace Drupal\pathauto;
 
-use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
@@ -209,7 +208,7 @@ class PathautoGenerator implements PathautoGeneratorInterface {
     $this->moduleHandler->alter('pathauto_alias', $alias, $context);
 
     // If we have arrived at an empty string, discontinue.
-    if (!Unicode::strlen($alias)) {
+    if (!mb_strlen($alias)) {
       return NULL;
     }
 

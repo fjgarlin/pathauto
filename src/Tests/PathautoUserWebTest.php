@@ -1,7 +1,6 @@
 <?php
 
 namespace Drupal\pathauto\Tests;
-use Drupal\Component\Utility\Unicode;
 use Drupal\simpletest\WebTestBase;
 use Drupal\views\Views;
 
@@ -85,7 +84,7 @@ class PathautoUserWebTest extends WebTestBase {
     $this->drupalPostForm('admin/people', $edit, t('Apply to selected items'));
     $this->assertText('Update URL alias was applied to 1 item.');
 
-    $this->assertEntityAlias($account, '/users/' . Unicode::strtolower($account->getUsername()));
+    $this->assertEntityAlias($account, '/users/' . mb_strtolower($account->getUsername()));
     $this->assertEntityAlias($this->adminUser, '/user/' . $this->adminUser->id());
   }
 

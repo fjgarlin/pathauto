@@ -3,7 +3,6 @@
 namespace Drupal\Tests\pathauto\Kernel;
 
 use Drupal\Component\Utility\Html;
-use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Language\Language;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\language\Entity\ConfigurableLanguage;
@@ -370,7 +369,7 @@ class PathautoKernelTest extends KernelTestBase {
 
     Vocabulary::create(['vid' => 'tags'])->save();
 
-    $fieldname = 'a' . Unicode::strtolower($this->randomMachineName());
+    $fieldname = 'a' . mb_strtolower($this->randomMachineName());
     $field_storage = FieldStorageConfig::create(['entity_type' => 'taxonomy_term', 'field_name' => $fieldname, 'type' => 'string']);
     $field_storage->save();
     $field = FieldConfig::create(['field_storage' => $field_storage, 'bundle' => 'tags']);
@@ -391,11 +390,11 @@ class PathautoKernelTest extends KernelTestBase {
     // Create the child term.
     $child = Term::create(['vid' => 'tags', $fieldname => $this->randomMachineName(), 'parent' => $parent, 'name' => $this->randomMachineName()]);
     $child->save();
-    $this->assertEntityAlias($child, '/' . Unicode::strtolower($parent->getName() . '/' . $child->$fieldname->value));
+    $this->assertEntityAlias($child, '/' . mb_strtolower($parent->getName() . '/' . $child->$fieldname->value));
 
     // Re-saving the parent term should not modify the child term's alias.
     $parent->save();
-    $this->assertEntityAlias($child, '/' . Unicode::strtolower($parent->getName() . '/' . $child->$fieldname->value));
+    $this->assertEntityAlias($child, '/' . mb_strtolower($parent->getName() . '/' . $child->$fieldname->value));
   }
 
   /**
