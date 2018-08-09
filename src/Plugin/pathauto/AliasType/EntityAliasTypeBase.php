@@ -151,12 +151,15 @@ class EntityAliasTypeBase extends ContextAwarePluginBase implements AliasTypeInt
       case 'create':
         $query->isNull('ua.source');
         break;
+
       case 'update':
         $query->isNotNull('ua.source');
         break;
+
       case 'all':
         // Nothing to do. We want all paths.
         break;
+
       default:
         // Unknown action. Abort!
         return;
@@ -255,7 +258,7 @@ class EntityAliasTypeBase extends ContextAwarePluginBase implements AliasTypeInt
    *   An optional array of additional options.
    *
    * @return int
-   *  The number of updated URL aliases.
+   *   The number of updated URL aliases.
    */
   protected function bulkUpdate(array $ids, array $options = array()) {
     $options += array('message' => FALSE);
@@ -329,6 +332,5 @@ class EntityAliasTypeBase extends ContextAwarePluginBase implements AliasTypeInt
     $this->context[$name] = new Context($this->getContextDefinition($name), $value);
     return $this;
   }
-
 
 }

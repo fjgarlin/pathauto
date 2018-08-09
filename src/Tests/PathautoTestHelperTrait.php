@@ -50,7 +50,7 @@ trait PathautoTestHelperTrait {
    * @param string $entity_type
    *   The entity type ID.
    * @param string $bundle
-   *   The bundle
+   *   The bundle.
    */
   protected function addBundleCondition(PathautoPatternInterface $pattern, $entity_type, $bundle) {
     $plugin_id = $entity_type == 'node' ? 'node_type' : 'entity_bundle:' . $entity_type;
@@ -141,6 +141,7 @@ trait PathautoTestHelperTrait {
 
   /**
    * @param array $values
+   *
    * @return \Drupal\taxonomy\VocabularyInterface
    */
   public function addVocabulary(array $values = array()) {

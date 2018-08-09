@@ -133,7 +133,7 @@ function hook_pathauto_pattern_alter(&$pattern, array $context) {
  *   - 'pattern': A string of the pattern used for aliasing the object.
  */
 function hook_pathauto_alias_alter(&$alias, array &$context) {
-  // Add a suffix so that all aliases get saved as 'content/my-title.html'
+  // Add a suffix so that all aliases get saved as 'content/my-title.html'.
   $alias .= '.html';
 
   // Force all aliases to be saved as language neutral.
@@ -143,7 +143,7 @@ function hook_pathauto_alias_alter(&$alias, array &$context) {
 /**
  * Alter the list of punctuation characters for Pathauto control.
  *
- * @param $punctuation
+ * @param array $punctuation
  *   An array of punctuation to be controlled by Pathauto during replacement
  *   keyed by punctuation name. Each punctuation record should be an array
  *   with the following key/value pairs:

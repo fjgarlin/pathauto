@@ -1,6 +1,7 @@
 <?php
 
 namespace Drupal\pathauto\Tests;
+
 use Drupal\simpletest\WebTestBase;
 use Drupal\views\Views;
 
@@ -28,7 +29,7 @@ class PathautoUserWebTest extends WebTestBase {
   protected $adminUser;
 
   /**
-   * {inheritdoc}
+   * {@inheritdoc}
    */
   function setUp() {
     parent::setUp();
@@ -45,7 +46,6 @@ class PathautoUserWebTest extends WebTestBase {
 
     $this->createPattern('user', '/users/[user:name]');
   }
-
 
   /**
    * Basic functional testing of Pathauto with users.
@@ -69,7 +69,6 @@ class PathautoUserWebTest extends WebTestBase {
     $view = Views::getView('user_admin_people');
     $view->initDisplay();
     $view->preview('page_1');
-
 
     foreach ($view->result as $key => $row) {
       if ($view->field['name']->getValue($row) == $account->getUsername()) {

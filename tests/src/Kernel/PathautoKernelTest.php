@@ -284,7 +284,7 @@ class PathautoKernelTest extends KernelTestBase {
     $this->assertEntityAlias($node, '/content/second-title');
     $this->assertNoAliasExists(array('alias' => '/content/first-title'));
 
-    // Test PATHAUTO_UPDATE_ACTION_LEAVE
+    // Test PATHAUTO_UPDATE_ACTION_LEAVE.
     $config->set('update_action', PathautoGeneratorInterface::UPDATE_ACTION_LEAVE);
     $config->save();
     $node->setTitle('Third title');
@@ -322,8 +322,8 @@ class PathautoKernelTest extends KernelTestBase {
   }
 
   /**
-   * Test that \Drupal::service('pathauto.generator')->createEntityAlias() will not create an alias for a pattern
-   * that does not get any tokens replaced.
+   * Test that \Drupal::service('pathauto.generator')->createEntityAlias() will
+   * not create an alias for a pattern that does not get any tokens replaced.
    */
   public function testNoTokensNoAlias() {
     $this->installConfig(['filter']);
@@ -364,7 +364,6 @@ class PathautoKernelTest extends KernelTestBase {
   function testParentChildPathTokens() {
     // First create a field which will be used to create the path. It must
     // begin with a letter.
-
     $this->installEntitySchema('taxonomy_term');
 
     Vocabulary::create(['vid' => 'tags'])->save();
@@ -505,7 +504,7 @@ class PathautoKernelTest extends KernelTestBase {
   }
 
   /**
-   * Tests that enabled entity types genrates the necessary fields and plugins.
+   * Tests that enabled entity types generates the necessary fields and plugins.
    */
   public function testSettingChangeInvalidatesCache() {
 

@@ -35,7 +35,7 @@ class PathautoSettingsForm extends ConfigFormBase {
   protected $aliasTypeManager;
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public function __construct(ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $entity_field_manager, AliasTypeManager $alias_type_manager) {
     parent::__construct($config_factory);
@@ -45,7 +45,7 @@ class PathautoSettingsForm extends ConfigFormBase {
   }
 
   /**
-   * {@inheritDoc}
+   * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
     return new static(

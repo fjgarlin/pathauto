@@ -41,6 +41,13 @@ class VerboseMessenger implements MessengerInterface {
 
   /**
    * Creates a verbose messenger.
+   *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory.
+   * @param \Drupal\Core\Session\AccountInterface $account
+   *   The current user account.
+   * @param \Drupal\Core\Messenger\MessengerInterface $messenger
+   *   The messenger service.
    */
   public function __construct(ConfigFactoryInterface $config_factory, AccountInterface $account, CoreMessengerInterface $messenger) {
     $this->configFactory = $config_factory;

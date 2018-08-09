@@ -86,12 +86,16 @@ class PathautoGenerator implements PathautoGeneratorInterface {
   protected $messenger;
 
   /**
+   * The token entity mapper.
+   *
    * @var \Drupal\token\TokenEntityMapperInterface
    */
   protected $tokenEntityMapper;
 
   /**
-   * @var Drupal\Core\Entity\EntityTypeManagerInterface
+   * The entity type manager.
+   *
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
 
@@ -114,10 +118,12 @@ class PathautoGenerator implements PathautoGeneratorInterface {
    *   The messenger service.
    * @param \Drupal\Core\StringTranslation\TranslationInterface $string_translation
    *   The string translation service.
-   * @param Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity type manager
+   * @param \Drupal\token\TokenEntityMapperInterface $token_entity_mapper
+   *   The token entity mapper.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   The entity type manager.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, Token $token, AliasCleanerInterface $alias_cleaner, AliasStorageHelperInterface $alias_storage_helper, AliasUniquifierInterface $alias_uniquifier, MessengerInterface $messenger, TranslationInterface $string_translation, TokenEntityMapperInterface $token_entity_mappper, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, Token $token, AliasCleanerInterface $alias_cleaner, AliasStorageHelperInterface $alias_storage_helper, AliasUniquifierInterface $alias_uniquifier, MessengerInterface $messenger, TranslationInterface $string_translation, TokenEntityMapperInterface $token_entity_mapper, EntityTypeManagerInterface $entity_type_manager) {
     $this->configFactory = $config_factory;
     $this->moduleHandler = $module_handler;
     $this->token = $token;
@@ -126,7 +132,7 @@ class PathautoGenerator implements PathautoGeneratorInterface {
     $this->aliasUniquifier = $alias_uniquifier;
     $this->messenger = $messenger;
     $this->stringTranslation = $string_translation;
-    $this->tokenEntityMapper = $token_entity_mappper;
+    $this->tokenEntityMapper = $token_entity_mapper;
     $this->entityTypeManager = $entity_type_manager;
   }
 
@@ -239,7 +245,7 @@ class PathautoGenerator implements PathautoGeneratorInterface {
   }
 
   /**
-   * Loads pathauto patterns for a given entity type ID
+   * Loads pathauto patterns for a given entity type ID.
    *
    * @param string $entity_type_id
    *   An entity type ID.

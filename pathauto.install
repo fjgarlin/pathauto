@@ -14,7 +14,7 @@ use Drupal\pathauto\Entity\PathautoPattern;
  * Implements hook_install().
  */
 function pathauto_install() {
-  // Set the weight to 1
+  // Set the weight to 1.
   module_set_weight('pathauto', 1);
 
   // Ensure the url_alias table exists.
@@ -168,7 +168,8 @@ function pathauto_update_8100() {
             continue;
           }
 
-          // This is a pattern for a bundle and a language, such as "node_article_es".
+          // This is a pattern for a bundle and a language, such as
+          // "node_article_es".
           $pattern = PathautoPattern::create([
             'id' => $entity_type . '_' . $extracted_bundle . '_' . str_replace('-', '_', $langcode),
             'label' => $entity_label . ' ' . $bundle_info[$extracted_bundle]['label'] . ' ' . $language->getName(),
