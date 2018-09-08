@@ -170,8 +170,9 @@ class PathautoGenerator implements PathautoGeneratorInterface {
       'bundle' => $entity->bundle(),
       'language' => &$langcode,
     );
-    // @todo Is still hook still useful?
+    $pattern_original = $pattern->getPattern();
     $this->moduleHandler->alter('pathauto_pattern', $pattern, $context);
+    $pattern_altered = $pattern->getPattern();
 
     // Special handling when updating an item which is already aliased.
     $existing_alias = NULL;
@@ -241,7 +242,15 @@ class PathautoGenerator implements PathautoGeneratorInterface {
       'language' => $langcode,
     );
 
-    return $this->aliasStorageHelper->save($path, $existing_alias, $op);
+    $return  = $this->aliasStorageHelper->save($path, $existing_alias, $op);
+
+    // Because there is no way to set an altered pattern to not be cached,
+    // change it back to the original value.
+    if ($pattern_altered !== $pattern_original) {
+      $pattern->setPattern($pattern_original);
+    }
+
+    return $return;
   }
 
   /**
