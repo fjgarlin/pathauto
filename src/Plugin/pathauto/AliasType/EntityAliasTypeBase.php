@@ -11,6 +11,7 @@ use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Plugin\Context\Context;
 use Drupal\Core\Plugin\ContextAwarePluginBase;
+use Drupal\Core\Messenger\MessengerTrait;
 use Drupal\pathauto\AliasTypeBatchUpdateInterface;
 use Drupal\pathauto\AliasTypeInterface;
 use Drupal\pathauto\PathautoState;
@@ -25,6 +26,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class EntityAliasTypeBase extends ContextAwarePluginBase implements AliasTypeInterface, AliasTypeBatchUpdateInterface, ContainerFactoryPluginInterface {
+
+  use MessengerTrait;
 
   /**
    * The module handler service.
@@ -277,7 +280,10 @@ class EntityAliasTypeBase extends ContextAwarePluginBase implements AliasTypeInt
     }
 
     if (!empty($options['message'])) {
-      drupal_set_message(\Drupal::translation()->formatPlural(count($ids), 'Updated 1 %label URL alias.', 'Updated @count %label URL aliases.'), array('%label' => $this->getLabel()));
+      $this->messenger->addMessage($this->translationManager
+        ->formatPlural(count($ids), 'Updated 1 %label URL alias.', 'Updated @count %label URL aliases.'), [
+          '%label' => $this->getLabel(),
+        ]);
     }
 
     return $updates;

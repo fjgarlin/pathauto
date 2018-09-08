@@ -340,7 +340,7 @@ class PathautoGenerator implements PathautoGeneratorInterface {
       $result = $this->createEntityAlias($entity, $op);
     }
     catch (\InvalidArgumentException $e) {
-      drupal_set_message($e->getMessage(), 'error');
+      $this->messenger->addError($e->getMessage());
       return NULL;
     }
 
