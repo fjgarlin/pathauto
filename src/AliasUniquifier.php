@@ -114,11 +114,11 @@ class AliasUniquifier implements AliasUniquifierInterface {
       return TRUE;
     }
     // Finally check if any other modules have reserved the alias.
-    $args = array(
+    $args = [
       $alias,
       $source,
       $langcode,
-    );
+    ];
     $implementations = $this->moduleHandler->getImplementations('pathauto_is_alias_reserved');
     foreach ($implementations as $module) {
 

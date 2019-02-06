@@ -104,28 +104,28 @@ class PathautoSettingsForm extends ConfigFormBase {
       }
     }
 
-    $form['verbose'] = array(
+    $form['verbose'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Verbose'),
       '#default_value' => $config->get('verbose'),
       '#description' => $this->t('Display alias changes (except during bulk updates).'),
-    );
+    ];
 
-    $form['separator'] = array(
+    $form['separator'] = [
       '#type' => 'textfield',
       '#title' => $this->t('Separator'),
       '#size' => 1,
       '#maxlength' => 1,
       '#default_value' => $config->get('separator'),
       '#description' => $this->t('Character used to separate words in titles. This will replace any spaces and punctuation characters. Using a space or + character can cause unexpected results.'),
-    );
+    ];
 
-    $form['case'] = array(
+    $form['case'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Character case'),
       '#default_value' => $config->get('case'),
       '#description' => $this->t('Convert token values to lowercase.'),
-    );
+    ];
 
     $max_length = \Drupal::service('pathauto.alias_storage_helper')->getAliasSchemaMaxlength();
 
@@ -134,7 +134,7 @@ class PathautoSettingsForm extends ConfigFormBase {
       $help_link = ' ' . $this->t('See <a href=":pathauto-help">Pathauto help</a> for details.', [':pathauto-help' => Url::fromRoute('help.page', ['name' => 'pathauto'])->toString()]);
     }
 
-    $form['max_length'] = array(
+    $form['max_length'] = [
       '#type' => 'number',
       '#title' => $this->t('Maximum alias length'),
       '#size' => 3,
@@ -142,10 +142,10 @@ class PathautoSettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('max_length'),
       '#min' => 1,
       '#max' => $max_length,
-      '#description' => $this->t('Maximum length of aliases to generate. 100 is the recommended length. @max is the maximum possible length.', array('@max' => $max_length)) . $help_link,
-    );
+      '#description' => $this->t('Maximum length of aliases to generate. 100 is the recommended length. @max is the maximum possible length.', ['@max' => $max_length]) . $help_link,
+    ];
 
-    $form['max_component_length'] = array(
+    $form['max_component_length'] = [
       '#type' => 'number',
       '#title' => $this->t('Maximum component length'),
       '#size' => 3,
@@ -154,62 +154,62 @@ class PathautoSettingsForm extends ConfigFormBase {
       '#min' => 1,
       '#max' => $max_length,
       '#description' => $this->t('Maximum text length of any component in the alias (e.g., [title]). 100 is the recommended length. @max is the maximum possible length.', ['@max' => $max_length]) . $help_link,
-    );
+    ];
 
     $description = $this->t('What should Pathauto do when updating an existing content item which already has an alias?');
     if (\Drupal::moduleHandler()->moduleExists('redirect')) {
-      $description .= ' ' . $this->t('The <a href=":url">Redirect module settings</a> affect whether a redirect is created when an alias is deleted.', array(':url' => Url::fromRoute('redirect.settings')->toString()));
+      $description .= ' ' . $this->t('The <a href=":url">Redirect module settings</a> affect whether a redirect is created when an alias is deleted.', [':url' => Url::fromRoute('redirect.settings')->toString()]);
     }
     else {
-      $description .= ' ' . $this->t('Considering installing the <a href=":url">Redirect module</a> to get redirects when your aliases change.', array(':url' => 'http://drupal.org/project/redirect'));
+      $description .= ' ' . $this->t('Considering installing the <a href=":url">Redirect module</a> to get redirects when your aliases change.', [':url' => 'http://drupal.org/project/redirect']);
     }
 
-    $form['update_action'] = array(
+    $form['update_action'] = [
       '#type' => 'radios',
       '#title' => $this->t('Update action'),
       '#default_value' => $config->get('update_action'),
-      '#options' => array(
+      '#options' => [
         PathautoGeneratorInterface::UPDATE_ACTION_NO_NEW => $this->t('Do nothing. Leave the old alias intact.'),
         PathautoGeneratorInterface::UPDATE_ACTION_LEAVE => $this->t('Create a new alias. Leave the existing alias functioning.'),
         PathautoGeneratorInterface::UPDATE_ACTION_DELETE => $this->t('Create a new alias. Delete the old alias.'),
-      ),
+    ],
       '#description' => $description,
-    );
+    ];
 
-    $form['transliterate'] = array(
+    $form['transliterate'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Transliterate prior to creating alias'),
       '#default_value' => $config->get('transliterate'),
       '#description' => $this->t('When a pattern includes certain characters (such as those with accents) should Pathauto attempt to transliterate them into the US-ASCII alphabet?'),
-    );
+    ];
 
-    $form['reduce_ascii'] = array(
+    $form['reduce_ascii'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Reduce strings to letters and numbers'),
       '#default_value' => $config->get('reduce_ascii'),
       '#description' => $this->t('Filters the new alias to only letters and numbers found in the ASCII-96 set.'),
-    );
+    ];
 
-    $form['ignore_words'] = array(
+    $form['ignore_words'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Strings to Remove'),
       '#default_value' => $config->get('ignore_words'),
       '#description' => $this->t('Words to strip out of the URL alias, separated by commas. Do not use this to remove punctuation.'),
-    );
+    ];
 
-    $form['safe_tokens'] = array(
+    $form['safe_tokens'] = [
       '#type' => 'textarea',
       '#title' => $this->t('Safe tokens'),
       '#default_value' => implode(', ', $config->get('safe_tokens')),
       '#description' => $this->t('List of tokens that are safe to use in alias patterns and do not need to be cleaned. For example urls, aliases, machine names. Separated with a comma.'),
-    );
+    ];
 
-    $form['punctuation'] = array(
+    $form['punctuation'] = [
       '#type' => 'details',
       '#title' => $this->t('Punctuation'),
       '#open' => FALSE,
       '#tree' => TRUE,
-    );
+    ];
 
     $punctuation = \Drupal::service('pathauto.alias_cleaner')->getPunctuationCharacters();
 
@@ -222,16 +222,16 @@ class PathautoSettingsForm extends ConfigFormBase {
         // Otherwise use the correct default.
         $details['default'] = $details['value'] == $config->get('separator') ? PathautoGeneratorInterface::PUNCTUATION_REPLACE : PathautoGeneratorInterface::PUNCTUATION_REMOVE;
       }
-      $form['punctuation'][$name] = array(
+      $form['punctuation'][$name] = [
         '#type' => 'select',
         '#title' => $details['name'] . ' (<code>' . Html::escape($details['value']) . '</code>)',
         '#default_value' => $details['default'],
-        '#options' => array(
+        '#options' => [
           PathautoGeneratorInterface::PUNCTUATION_REMOVE => $this->t('Remove'),
           PathautoGeneratorInterface::PUNCTUATION_REPLACE => $this->t('Replace by separator'),
           PathautoGeneratorInterface::PUNCTUATION_DO_NOTHING => $this->t('No action (do not replace)'),
-        ),
-      );
+      ],
+      ];
     }
 
     return parent::buildForm($form, $form_state);

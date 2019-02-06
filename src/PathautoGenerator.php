@@ -48,14 +48,14 @@ class PathautoGenerator implements PathautoGeneratorInterface {
    *
    * @var array
    */
-  protected $patterns = array();
+  protected $patterns = [];
 
   /**
    * Available patterns per entity type ID.
    *
    * @var array
    */
-  protected $patternsByEntityType = array();
+  protected $patternsByEntityType = [];
 
   /**
    * The alias cleaner.
@@ -162,14 +162,14 @@ class PathautoGenerator implements PathautoGeneratorInterface {
     ];
 
     // Allow other modules to alter the pattern.
-    $context = array(
+    $context = [
       'module' => $entity->getEntityType()->getProvider(),
       'op' => $op,
       'source' => $source,
       'data' => $data,
       'bundle' => $entity->bundle(),
       'language' => &$langcode,
-    );
+    ];
     $pattern_original = $pattern->getPattern();
     $this->moduleHandler->alter('pathauto_pattern', $pattern, $context);
     $pattern_altered = $pattern->getPattern();
@@ -192,12 +192,12 @@ class PathautoGenerator implements PathautoGeneratorInterface {
     // Uses callback option to clean replacements. No sanitization.
     // Pass empty BubbleableMetadata object to explicitly ignore cacheablity,
     // as the result is never rendered.
-    $alias = $this->token->replace($pattern->getPattern(), $data, array(
+    $alias = $this->token->replace($pattern->getPattern(), $data, [
       'clear' => TRUE,
-      'callback' => array($this->aliasCleaner, 'cleanTokenValues'),
+      'callback' => [$this->aliasCleaner, 'cleanTokenValues'],
       'langcode' => $langcode,
       'pathauto' => TRUE,
-    ), new BubbleableMetadata());
+    ], new BubbleableMetadata());
 
     // Check if the token replacement has not actually replaced any values. If
     // that is the case, then stop because we should not generate an alias.
@@ -224,10 +224,10 @@ class PathautoGenerator implements PathautoGeneratorInterface {
     $this->aliasUniquifier->uniquify($alias, $source, $langcode);
     if ($original_alias != $alias) {
       // Alert the user why this happened.
-      $this->messenger->addMessage($this->t('The automatically generated alias %original_alias conflicted with an existing alias. Alias changed to %alias.', array(
+      $this->messenger->addMessage($this->t('The automatically generated alias %original_alias conflicted with an existing alias. Alias changed to %alias.', [
         '%original_alias' => $original_alias,
         '%alias' => $alias,
-      )), $op);
+      ]), $op);
     }
 
     // Return the generated alias if requested.
@@ -236,11 +236,11 @@ class PathautoGenerator implements PathautoGeneratorInterface {
     }
 
     // Build the new path alias array and send it off to be created.
-    $path = array(
+    $path = [
       'source' => $source,
       'alias' => $alias,
       'language' => $langcode,
-    );
+    ];
 
     $return  = $this->aliasStorageHelper->save($path, $existing_alias, $op);
 
@@ -311,7 +311,7 @@ class PathautoGenerator implements PathautoGeneratorInterface {
   /**
    * {@inheritdoc}
    */
-  public function updateEntityAlias(EntityInterface $entity, $op, array $options = array()) {
+  public function updateEntityAlias(EntityInterface $entity, $op, array $options = []) {
     // Skip if the entity does not have the path field.
     if (!($entity instanceof ContentEntityInterface) || !$entity->hasField('path')) {
       return NULL;
@@ -327,7 +327,7 @@ class PathautoGenerator implements PathautoGeneratorInterface {
       return NULL;
     }
 
-    $options += array('language' => $entity->language()->getId());
+    $options += ['language' => $entity->language()->getId()];
     $type = $entity->getEntityTypeId();
 
     // Skip processing if the entity has no pattern.

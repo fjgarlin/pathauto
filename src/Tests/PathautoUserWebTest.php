@@ -19,7 +19,7 @@ class PathautoUserWebTest extends WebTestBase {
    *
    * @var array
    */
-  public static $modules = array('pathauto', 'views');
+  public static $modules = ['pathauto', 'views'];
 
   /**
    * Admin user.
@@ -35,12 +35,12 @@ class PathautoUserWebTest extends WebTestBase {
     parent::setUp();
 
     // Allow other modules to add additional permissions for the admin user.
-    $permissions = array(
+    $permissions = [
       'administer pathauto',
       'administer url aliases',
       'create url aliases',
       'administer users',
-    );
+    ];
     $this->adminUser = $this->drupalCreateUser($permissions);
     $this->drupalLogin($this->adminUser);
 
@@ -76,10 +76,10 @@ class PathautoUserWebTest extends WebTestBase {
       }
     }
 
-    $edit = array(
+    $edit = [
       'action' => 'pathauto_update_alias_user',
       "user_bulk_form[$key]" => TRUE,
-    );
+    ];
     $this->drupalPostForm('admin/people', $edit, t('Apply to selected items'));
     $this->assertText('Update URL alias was applied to 1 item.');
 
