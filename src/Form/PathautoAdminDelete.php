@@ -131,7 +131,7 @@ class PathautoAdminDelete extends FormBase {
 
       batch_set($batch);
     }
-    else if ($delete_all) {
+    elseif ($delete_all) {
       \Drupal::service('pathauto.alias_storage_helper')->deleteAll();
       $this->messenger()->addMessage($this->t('All of your path aliases have been deleted.'));
     }
@@ -171,7 +171,7 @@ class PathautoAdminDelete extends FormBase {
         \Drupal::service('messenger')
           ->addMessage(t('All of your automatically generated path aliases have been deleted.'));
       }
-      else if (isset($results['deletions'])) {
+      elseif (isset($results['deletions'])) {
         foreach (array_values($results['deletions']) as $label) {
           \Drupal::service('messenger')
             ->addMessage(t('All of your automatically generated %label path aliases have been deleted.', [
