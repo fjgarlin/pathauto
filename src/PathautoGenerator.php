@@ -100,6 +100,13 @@ class PathautoGenerator implements PathautoGeneratorInterface {
   protected $entityTypeManager;
 
   /**
+   * Manages pathauto alias type plugins.
+   *
+   * @var \Drupal\pathauto\AliasTypeManager
+   */
+  protected $aliasTypeManager;
+
+  /**
    * Creates a new Pathauto manager.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -122,8 +129,10 @@ class PathautoGenerator implements PathautoGeneratorInterface {
    *   The token entity mapper.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager.
+   * @param \Drupal\pathauto\AliasTypeManager $alias_type_manager
+   *   Manages pathauto alias type plugins.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, Token $token, AliasCleanerInterface $alias_cleaner, AliasStorageHelperInterface $alias_storage_helper, AliasUniquifierInterface $alias_uniquifier, MessengerInterface $messenger, TranslationInterface $string_translation, TokenEntityMapperInterface $token_entity_mapper, EntityTypeManagerInterface $entity_type_manager) {
+  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, Token $token, AliasCleanerInterface $alias_cleaner, AliasStorageHelperInterface $alias_storage_helper, AliasUniquifierInterface $alias_uniquifier, MessengerInterface $messenger, TranslationInterface $string_translation, TokenEntityMapperInterface $token_entity_mapper, EntityTypeManagerInterface $entity_type_manager, AliasTypeManager $alias_type_manager) {
     $this->configFactory = $config_factory;
     $this->moduleHandler = $module_handler;
     $this->token = $token;
@@ -134,6 +143,7 @@ class PathautoGenerator implements PathautoGeneratorInterface {
     $this->stringTranslation = $string_translation;
     $this->tokenEntityMapper = $token_entity_mapper;
     $this->entityTypeManager = $entity_type_manager;
+    $this->aliasTypeManager = $alias_type_manager;
   }
 
   /**
@@ -242,7 +252,7 @@ class PathautoGenerator implements PathautoGeneratorInterface {
       'language' => $langcode,
     ];
 
-    $return  = $this->aliasStorageHelper->save($path, $existing_alias, $op);
+    $return = $this->aliasStorageHelper->save($path, $existing_alias, $op);
 
     // Because there is no way to set an altered pattern to not be cached,
     // change it back to the original value.
@@ -264,14 +274,17 @@ class PathautoGenerator implements PathautoGeneratorInterface {
    */
   protected function getPatternByEntityType($entity_type_id) {
     if (!isset($this->patternsByEntityType[$entity_type_id])) {
-      $ids = \Drupal::entityQuery('pathauto_pattern')
-        ->condition('type', array_keys(\Drupal::service('plugin.manager.alias_type')
-          ->getPluginDefinitionByType($this->tokenEntityMapper->getTokenTypeForEntityType($entity_type_id))))
+
+      $ids = $this->entityTypeManager->getStorage('pathauto_pattern')
+        ->getQuery()
+        ->condition('type', array_keys(
+          $this->aliasTypeManager
+            ->getPluginDefinitionByType($this->tokenEntityMapper->getTokenTypeForEntityType($entity_type_id))))
         ->condition('status', 1)
         ->sort('weight')
         ->execute();
 
-      $this->patternsByEntityType[$entity_type_id] = \Drupal::entityTypeManager()
+      $this->patternsByEntityType[$entity_type_id] = $this->entityTypeManager
         ->getStorage('pathauto_pattern')
         ->loadMultiple($ids);
     }
