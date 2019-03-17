@@ -71,7 +71,7 @@ class PathautoUserWebTest extends WebTestBase {
     $view->preview('page_1');
 
     foreach ($view->result as $key => $row) {
-      if ($view->field['name']->getValue($row) == $account->getUsername()) {
+      if ($view->field['name']->getValue($row) == $account->getDisplayName()) {
         break;
       }
     }
@@ -83,7 +83,7 @@ class PathautoUserWebTest extends WebTestBase {
     $this->drupalPostForm('admin/people', $edit, t('Apply to selected items'));
     $this->assertText('Update URL alias was applied to 1 item.');
 
-    $this->assertEntityAlias($account, '/users/' . mb_strtolower($account->getUsername()));
+    $this->assertEntityAlias($account, '/users/' . mb_strtolower($account->getDisplayName()));
     $this->assertEntityAlias($this->adminUser, '/user/' . $this->adminUser->id());
   }
 
