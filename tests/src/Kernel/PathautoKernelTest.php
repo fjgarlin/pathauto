@@ -44,11 +44,11 @@ class PathautoKernelTest extends KernelTestBase {
   public function setUp() {
     parent::setup();
 
-    $this->installConfig(['pathauto', 'taxonomy', 'system', 'node']);
 
     $this->installEntitySchema('user');
     $this->installEntitySchema('node');
     $this->installEntitySchema('taxonomy_term');
+    $this->installConfig(['pathauto', 'taxonomy', 'system', 'node']);
 
     ConfigurableLanguage::createFromLangcode('fr')->save();
 

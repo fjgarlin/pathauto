@@ -355,7 +355,7 @@ class PathautoGenerator implements PathautoGeneratorInterface {
     if ($type == 'taxonomy_term') {
 
       $config_forum = $this->configFactory->get('forum.settings');
-      if ($entity->getVocabularyId() == $config_forum->get('vocabulary')) {
+      if ($entity->bundle() == $config_forum->get('vocabulary')) {
         $type = 'forum';
       }
     }
