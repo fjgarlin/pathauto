@@ -5,12 +5,20 @@ namespace Drupal\pathauto\Form;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\pathauto\AliasTypeManager;
+use Drupal\pathauto\AliasStorageHelperInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Alias mass delete form.
  */
 class PathautoAdminDelete extends FormBase {
+
+  /**
+   * Provides helper methods for accessing alias storage.
+   *
+   * @var \Drupal\pathauto\AliasStorageHelperInterface
+   */
+  protected $aliasStorageHelper;
 
   /**
    * The alias type manager.
@@ -22,10 +30,13 @@ class PathautoAdminDelete extends FormBase {
   /**
    * Constructs a PathautoAdminDelete object.
    *
+   * @param \Drupal\pathauto\AliasStorageHelperInterface $alias_storage_helper
+   *   Provides helper methods for accessing alias storage.
    * @param \Drupal\pathauto\AliasTypeManager $alias_type_manager
    *   The alias type manager.
    */
-  public function __construct(AliasTypeManager $alias_type_manager) {
+  public function __construct(AliasStorageHelperInterface $alias_storage_helper, AliasTypeManager $alias_type_manager) {
+    $this->aliasStorageHelper = $alias_storage_helper;
     $this->aliasTypeManager = $alias_type_manager;
   }
 
@@ -34,6 +45,7 @@ class PathautoAdminDelete extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
+      $container->get('pathauto.alias_storage_helper'),
       $container->get('plugin.manager.alias_type')
     );
   }
@@ -56,8 +68,7 @@ class PathautoAdminDelete extends FormBase {
     ];
 
     // First we do the "all" case.
-    $storage_helper = \Drupal::service('pathauto.alias_storage_helper');
-    $total_count = $storage_helper->countAll();
+    $total_count = $this->aliasStorageHelper->countAll();
     $form['delete']['all_aliases'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('All aliases'),
@@ -71,7 +82,7 @@ class PathautoAdminDelete extends FormBase {
     foreach ($definitions as $id => $definition) {
       /** @var \Drupal\pathauto\AliasTypeInterface $alias_type */
       $alias_type = $this->aliasTypeManager->createInstance($id);
-      $count = $storage_helper->countBySourcePrefix($alias_type->getSourcePrefix());
+      $count = $this->aliasStorageHelper->countBySourcePrefix($alias_type->getSourcePrefix());
       $form['delete']['plugins'][$id] = [
         '#type' => 'checkbox',
         '#title' => (string) $definition['label'],
@@ -132,14 +143,13 @@ class PathautoAdminDelete extends FormBase {
       batch_set($batch);
     }
     elseif ($delete_all) {
-      \Drupal::service('pathauto.alias_storage_helper')->deleteAll();
+      $this->aliasStorageHelper->deleteAll();
       $this->messenger()->addMessage($this->t('All of your path aliases have been deleted.'));
     }
     else {
-      $storage_helper = \Drupal::service('pathauto.alias_storage_helper');
       foreach (array_keys(array_filter($form_state->getValue(['delete', 'plugins']))) as $id) {
         $alias_type = $this->aliasTypeManager->createInstance($id);
-        $storage_helper->deleteBySourcePrefix((string) $alias_type->getSourcePrefix());
+        $this->aliasStorageHelper->deleteBySourcePrefix((string) $alias_type->getSourcePrefix());
         $this->messenger()->addMessage($this->t('All of your %label path aliases have been deleted.', ['%label' => $alias_type->getLabel()]));
       }
     }
