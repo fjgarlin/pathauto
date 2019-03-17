@@ -8,6 +8,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\RevisionableInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Messenger\MessengerTrait;
 use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
@@ -20,6 +21,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
  */
 class PathautoGenerator implements PathautoGeneratorInterface {
 
+  use MessengerTrait;
   use StringTranslationTrait;
 
   /**
@@ -83,7 +85,7 @@ class PathautoGenerator implements PathautoGeneratorInterface {
    *
    * @var \Drupal\pathauto\MessengerInterface
    */
-  protected $messenger;
+  protected $pathautoMessenger;
 
   /**
    * The token entity mapper.
@@ -121,7 +123,7 @@ class PathautoGenerator implements PathautoGeneratorInterface {
    *   The alias storage helper.
    * @param AliasUniquifierInterface $alias_uniquifier
    *   The alias uniquifier.
-   * @param MessengerInterface $messenger
+   * @param \Drupal\pathauto\MessengerInterface $pathauto_messenger
    *   The messenger service.
    * @param \Drupal\Core\StringTranslation\TranslationInterface $string_translation
    *   The string translation service.
@@ -132,14 +134,14 @@ class PathautoGenerator implements PathautoGeneratorInterface {
    * @param \Drupal\pathauto\AliasTypeManager $alias_type_manager
    *   Manages pathauto alias type plugins.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, Token $token, AliasCleanerInterface $alias_cleaner, AliasStorageHelperInterface $alias_storage_helper, AliasUniquifierInterface $alias_uniquifier, MessengerInterface $messenger, TranslationInterface $string_translation, TokenEntityMapperInterface $token_entity_mapper, EntityTypeManagerInterface $entity_type_manager, AliasTypeManager $alias_type_manager) {
+  public function __construct(ConfigFactoryInterface $config_factory, ModuleHandlerInterface $module_handler, Token $token, AliasCleanerInterface $alias_cleaner, AliasStorageHelperInterface $alias_storage_helper, AliasUniquifierInterface $alias_uniquifier, MessengerInterface $pathauto_messenger, TranslationInterface $string_translation, TokenEntityMapperInterface $token_entity_mapper, EntityTypeManagerInterface $entity_type_manager, AliasTypeManager $alias_type_manager) {
     $this->configFactory = $config_factory;
     $this->moduleHandler = $module_handler;
     $this->token = $token;
     $this->aliasCleaner = $alias_cleaner;
     $this->aliasStorageHelper = $alias_storage_helper;
     $this->aliasUniquifier = $alias_uniquifier;
-    $this->messenger = $messenger;
+    $this->pathautoMessenger = $pathauto_messenger;
     $this->stringTranslation = $string_translation;
     $this->tokenEntityMapper = $token_entity_mapper;
     $this->entityTypeManager = $entity_type_manager;
@@ -234,7 +236,7 @@ class PathautoGenerator implements PathautoGeneratorInterface {
     $this->aliasUniquifier->uniquify($alias, $source, $langcode);
     if ($original_alias != $alias) {
       // Alert the user why this happened.
-      $this->messenger->addMessage($this->t('The automatically generated alias %original_alias conflicted with an existing alias. Alias changed to %alias.', [
+      $this->pathautoMessenger->addMessage($this->t('The automatically generated alias %original_alias conflicted with an existing alias. Alias changed to %alias.', [
         '%original_alias' => $original_alias,
         '%alias' => $alias,
       ]), $op);
@@ -362,7 +364,7 @@ class PathautoGenerator implements PathautoGeneratorInterface {
       $result = $this->createEntityAlias($entity, $op);
     }
     catch (\InvalidArgumentException $e) {
-      $this->messenger->addError($e->getMessage());
+      $this->messenger()->addError($e->getMessage());
       return NULL;
     }
 
