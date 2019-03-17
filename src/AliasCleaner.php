@@ -10,11 +10,14 @@ use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Provides an alias cleaner.
  */
 class AliasCleaner implements AliasCleanerInterface {
+
+  use StringTranslationTrait;
 
   /**
    * The config factory.
@@ -47,9 +50,9 @@ class AliasCleaner implements AliasCleanerInterface {
   /**
    * Calculated settings cache.
    *
-   * @todo Split this up into separate properties.
-   *
    * @var array
+   *
+   * @todo Split this up into separate properties.
    */
   protected $cleanStringCache = [];
 
@@ -272,7 +275,6 @@ class AliasCleaner implements AliasCleanerInterface {
     return $output;
   }
 
-
   /**
    * {@inheritdoc}
    */
@@ -285,39 +287,39 @@ class AliasCleaner implements AliasCleanerInterface {
         $this->punctuationCharacters = $cache->data;
       }
       else {
-        $punctuation = [];
-        $punctuation['double_quotes']      = ['value' => '"', 'name' => t('Double quotation marks')];
-        $punctuation['quotes']             = ['value' => '\'', 'name' => t("Single quotation marks (apostrophe)")];
-        $punctuation['backtick']           = ['value' => '`', 'name' => t('Back tick')];
-        $punctuation['comma']              = ['value' => ',', 'name' => t('Comma')];
-        $punctuation['period']             = ['value' => '.', 'name' => t('Period')];
-        $punctuation['hyphen']             = ['value' => '-', 'name' => t('Hyphen')];
-        $punctuation['underscore']         = ['value' => '_', 'name' => t('Underscore')];
-        $punctuation['colon']              = ['value' => ':', 'name' => t('Colon')];
-        $punctuation['semicolon']          = ['value' => ';', 'name' => t('Semicolon')];
-        $punctuation['pipe']               = ['value' => '|', 'name' => t('Vertical bar (pipe)')];
-        $punctuation['left_curly']         = ['value' => '{', 'name' => t('Left curly bracket')];
-        $punctuation['left_square']        = ['value' => '[', 'name' => t('Left square bracket')];
-        $punctuation['right_curly']        = ['value' => '}', 'name' => t('Right curly bracket')];
-        $punctuation['right_square']       = ['value' => ']', 'name' => t('Right square bracket')];
-        $punctuation['plus']               = ['value' => '+', 'name' => t('Plus sign')];
-        $punctuation['equal']              = ['value' => '=', 'name' => t('Equal sign')];
-        $punctuation['asterisk']           = ['value' => '*', 'name' => t('Asterisk')];
-        $punctuation['ampersand']          = ['value' => '&', 'name' => t('Ampersand')];
-        $punctuation['percent']            = ['value' => '%', 'name' => t('Percent sign')];
-        $punctuation['caret']              = ['value' => '^', 'name' => t('Caret')];
-        $punctuation['dollar']             = ['value' => '$', 'name' => t('Dollar sign')];
-        $punctuation['hash']               = ['value' => '#', 'name' => t('Number sign (pound sign, hash)')];
-        $punctuation['at']                 = ['value' => '@', 'name' => t('At sign')];
-        $punctuation['exclamation']        = ['value' => '!', 'name' => t('Exclamation mark')];
-        $punctuation['tilde']              = ['value' => '~', 'name' => t('Tilde')];
-        $punctuation['left_parenthesis']   = ['value' => '(', 'name' => t('Left parenthesis')];
-        $punctuation['right_parenthesis']  = ['value' => ')', 'name' => t('Right parenthesis')];
-        $punctuation['question_mark']      = ['value' => '?', 'name' => t('Question mark')];
-        $punctuation['less_than']          = ['value' => '<', 'name' => t('Less-than sign')];
-        $punctuation['greater_than']       = ['value' => '>', 'name' => t('Greater-than sign')];
-        $punctuation['slash']              = ['value' => '/', 'name' => t('Slash')];
-        $punctuation['back_slash']         = ['value' => '\\', 'name' => t('Backslash')];
+        $punctuation                      = [];
+        $punctuation['double_quotes']     = ['value' => '"', 'name' => $this->t('Double quotation marks')];
+        $punctuation['quotes']            = ['value' => '\'', 'name' => $this->t("Single quotation marks (apostrophe)")];
+        $punctuation['backtick']          = ['value' => '`', 'name' => $this->t('Back tick')];
+        $punctuation['comma']             = ['value' => ',', 'name' => $this->t('Comma')];
+        $punctuation['period']            = ['value' => '.', 'name' => $this->t('Period')];
+        $punctuation['hyphen']            = ['value' => '-', 'name' => $this->t('Hyphen')];
+        $punctuation['underscore']        = ['value' => '_', 'name' => $this->t('Underscore')];
+        $punctuation['colon']             = ['value' => ':', 'name' => $this->t('Colon')];
+        $punctuation['semicolon']         = ['value' => ';', 'name' => $this->t('Semicolon')];
+        $punctuation['pipe']              = ['value' => '|', 'name' => $this->t('Vertical bar (pipe)')];
+        $punctuation['left_curly']        = ['value' => '{', 'name' => $this->t('Left curly bracket')];
+        $punctuation['left_square']       = ['value' => '[', 'name' => $this->t('Left square bracket')];
+        $punctuation['right_curly']       = ['value' => '}', 'name' => $this->t('Right curly bracket')];
+        $punctuation['right_square']      = ['value' => ']', 'name' => $this->t('Right square bracket')];
+        $punctuation['plus']              = ['value' => '+', 'name' => $this->t('Plus sign')];
+        $punctuation['equal']             = ['value' => '=', 'name' => $this->t('Equal sign')];
+        $punctuation['asterisk']          = ['value' => '*', 'name' => $this->t('Asterisk')];
+        $punctuation['ampersand']         = ['value' => '&', 'name' => $this->t('Ampersand')];
+        $punctuation['percent']           = ['value' => '%', 'name' => $this->t('Percent sign')];
+        $punctuation['caret']             = ['value' => '^', 'name' => $this->t('Caret')];
+        $punctuation['dollar']            = ['value' => '$', 'name' => $this->t('Dollar sign')];
+        $punctuation['hash']              = ['value' => '#', 'name' => $this->t('Number sign (pound sign, hash)')];
+        $punctuation['at']                = ['value' => '@', 'name' => $this->t('At sign')];
+        $punctuation['exclamation']       = ['value' => '!', 'name' => $this->t('Exclamation mark')];
+        $punctuation['tilde']             = ['value' => '~', 'name' => $this->t('Tilde')];
+        $punctuation['left_parenthesis']  = ['value' => '(', 'name' => $this->t('Left parenthesis')];
+        $punctuation['right_parenthesis'] = ['value' => ')', 'name' => $this->t('Right parenthesis')];
+        $punctuation['question_mark']     = ['value' => '?', 'name' => $this->t('Question mark')];
+        $punctuation['less_than']         = ['value' => '<', 'name' => $this->t('Less-than sign')];
+        $punctuation['greater_than']      = ['value' => '>', 'name' => $this->t('Greater-than sign')];
+        $punctuation['slash']             = ['value' => '/', 'name' => $this->t('Slash')];
+        $punctuation['back_slash']        = ['value' => '\\', 'name' => $this->t('Backslash')];
 
         // Allow modules to alter the punctuation list and cache the result.
         $this->moduleHandler->alter('pathauto_punctuation_chars', $punctuation);
