@@ -39,7 +39,7 @@ class PathautoPatternListBuilder extends DraggableListBuilder {
   public function buildRow(EntityInterface $entity) {
     /* @var \Drupal\pathauto\PathautoPatternInterface $entity */
     $row['label'] = $entity->label();
-    $row['patern']['#markup'] = $entity->getPattern();
+    $row['pattern']['#markup'] = $entity->getPattern();
     $row['type']['#markup'] = $entity->getAliasType()->getLabel();
     $row['conditions']['#theme'] = 'item_list';
     foreach ($entity->getSelectionConditions() as $condition) {
