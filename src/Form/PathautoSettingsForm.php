@@ -7,40 +7,88 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\ConfigFormBase;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
+use Drupal\pathauto\AliasCleanerInterface;
+use Drupal\pathauto\AliasStorageHelperInterface;
 use Drupal\pathauto\AliasTypeManager;
 use Drupal\pathauto\PathautoGeneratorInterface;
-use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Configure file system settings for this site.
+ * Configure pathauto settings for this site.
  */
 class PathautoSettingsForm extends ConfigFormBase {
 
   /**
+   * The entity type manager.
+   *
    * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
   protected $entityTypeManager;
 
   /**
+   * The entity field manager.
+   *
    * @var \Drupal\Core\Entity\EntityFieldManagerInterface
    */
   protected $entityFieldManager;
 
   /**
+   * The module handler.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
+   * The alias cleaner.
+   *
+   * @var \Drupal\pathauto\AliasCleanerInterface
+   */
+  protected $aliasCleaner;
+
+  /**
+   * Provides helper methods for accessing alias storage.
+   *
+   * @var \Drupal\pathauto\AliasStorageHelperInterface
+   */
+  protected $aliasStorageHelper;
+
+  /**
+   * Manages pathauto alias type plugins.
+   *
    * @var \Drupal\pathauto\AliasTypeManager
    */
   protected $aliasTypeManager;
 
   /**
-   * {@inheritdoc}
+   * Constructs a PathautoSettingsForm.
+   *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   Defines the configuration object factory.
+   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
+   *   Manages entity type plugin definitions.
+   * @param \Drupal\Core\Entity\EntityFieldManagerInterface $entity_field_manager
+   *   Manages the discovery of entity fields.
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   Manage drupal modules.
+   * @param \Drupal\pathauto\AliasCleanerInterface $pathauto_alias_cleaner
+   *   Provides an alias cleaner.
+   * @param \Drupal\pathauto\AliasStorageHelperInterface $pathauto_alias_storage_helper
+   *   Provides helper methods for accessing alias storage.
+   * @param \Drupal\pathauto\AliasTypeManager $alias_type_manager
+   *   Manages pathauto alias type plugins.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $entity_field_manager, AliasTypeManager $alias_type_manager) {
+  public function __construct(ConfigFactoryInterface $config_factory, EntityTypeManagerInterface $entity_type_manager, EntityFieldManagerInterface $entity_field_manager, ModuleHandlerInterface $module_handler, AliasCleanerInterface $pathauto_alias_cleaner, AliasStorageHelperInterface $pathauto_alias_storage_helper, AliasTypeManager $alias_type_manager) {
     parent::__construct($config_factory);
     $this->entityTypeManager = $entity_type_manager;
     $this->entityFieldManager = $entity_field_manager;
+    $this->moduleHandler = $module_handler;
+    $this->aliasCleaner = $pathauto_alias_cleaner;
+    $this->aliasStorageHelper = $pathauto_alias_storage_helper;
     $this->aliasTypeManager = $alias_type_manager;
   }
 
@@ -52,6 +100,9 @@ class PathautoSettingsForm extends ConfigFormBase {
       $container->get('config.factory'),
       $container->get('entity_type.manager'),
       $container->get('entity_field.manager'),
+      $container->get('module_handler'),
+      $container->get('pathauto.alias_cleaner'),
+      $container->get('pathauto.alias_storage_helper'),
       $container->get('plugin.manager.alias_type')
     );
   }
@@ -88,7 +139,7 @@ class PathautoSettingsForm extends ConfigFormBase {
     foreach ($this->entityTypeManager->getDefinitions() as $entity_type_id => $entity_type) {
       // Disable a checkbox if it already exists and if the entity type has
       // patterns currently defined or if it isn't defined by us.
-      $patterns_count = \Drupal::entityQuery('pathauto_pattern')
+      $patterns_count = $this->entityTypeManager->getStorage('pathauto_pattern')->getQuery()
         ->condition('type', 'canonical_entities:' . $entity_type_id)
         ->count()
         ->execute();
@@ -127,10 +178,10 @@ class PathautoSettingsForm extends ConfigFormBase {
       '#description' => $this->t('Convert token values to lowercase.'),
     ];
 
-    $max_length = \Drupal::service('pathauto.alias_storage_helper')->getAliasSchemaMaxlength();
+    $max_length = $this->aliasStorageHelper->getAliasSchemaMaxlength();
 
     $help_link = '';
-    if (\Drupal::moduleHandler()->moduleExists('help')) {
+    if ($this->moduleHandler->moduleExists('help')) {
       $help_link = ' ' . $this->t('See <a href=":pathauto-help">Pathauto help</a> for details.', [':pathauto-help' => Url::fromRoute('help.page', ['name' => 'pathauto'])->toString()]);
     }
 
@@ -157,7 +208,7 @@ class PathautoSettingsForm extends ConfigFormBase {
     ];
 
     $description = $this->t('What should Pathauto do when updating an existing content item which already has an alias?');
-    if (\Drupal::moduleHandler()->moduleExists('redirect')) {
+    if ($this->moduleHandler->moduleExists('redirect')) {
       $description .= ' ' . $this->t('The <a href=":url">Redirect module settings</a> affect whether a redirect is created when an alias is deleted.', [':url' => Url::fromRoute('redirect.settings')->toString()]);
     }
     else {
@@ -211,7 +262,7 @@ class PathautoSettingsForm extends ConfigFormBase {
       '#tree' => TRUE,
     ];
 
-    $punctuation = \Drupal::service('pathauto.alias_cleaner')->getPunctuationCharacters();
+    $punctuation = $this->aliasCleaner->getPunctuationCharacters();
 
     foreach ($punctuation as $name => $details) {
       // Use the value from config if it exists.
