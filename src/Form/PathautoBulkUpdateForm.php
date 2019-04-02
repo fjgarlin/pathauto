@@ -16,6 +16,21 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class PathautoBulkUpdateForm extends FormBase {
 
   /**
+   * Generate URL aliases for un-aliased paths only.
+   */
+  const ACTION_CREATE = 'create';
+
+  /**
+   * Update URL aliases for paths that have an existing alias.
+   */
+  const ACTION_UPDATE = 'update';
+
+  /**
+   * Regenerate URL aliases for all paths.
+   */
+  const ACTION_ALL = 'all';
+
+  /**
    * The alias type manager.
    *
    * @var \Drupal\pathauto\AliasTypeManager
@@ -76,8 +91,8 @@ class PathautoBulkUpdateForm extends FormBase {
     $form['action'] = [
       '#type' => 'radios',
       '#title' => $this->t('Select which URL aliases to generate'),
-      '#options' => ['create' => $this->t('Generate a URL alias for un-aliased paths only')],
-      '#default_value' => 'create',
+      '#options' => [static::ACTION_CREATE => $this->t('Generate a URL alias for un-aliased paths only')],
+      '#default_value' => static::ACTION_CREATE,
     ];
 
     $config = $this->config('pathauto.settings');
@@ -89,8 +104,8 @@ class PathautoBulkUpdateForm extends FormBase {
       ];
     }
     else {
-      $form['action']['#options']['update'] = $this->t('Update the URL alias for paths having an old URL alias');
-      $form['action']['#options']['all'] = $this->t('Regenerate URL aliases for all paths');
+      $form['action']['#options'][static::ACTION_UPDATE] = $this->t('Update the URL alias for paths having an old URL alias');
+      $form['action']['#options'][static::ACTION_ALL] = $this->t('Regenerate URL aliases for all paths');
     }
 
     $form['actions']['#type'] = 'actions';
