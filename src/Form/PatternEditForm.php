@@ -117,7 +117,7 @@ class PatternEditForm extends EntityForm {
 
       $form['pattern_container']['pattern'] = [
         '#type' => 'textfield',
-        '#title' => 'Path pattern',
+        '#title' => $this->t('Path pattern'),
         '#default_value' => $this->entity->getPattern(),
         '#size' => 65,
         '#maxlength' => 1280,
