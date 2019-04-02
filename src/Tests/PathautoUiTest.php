@@ -146,6 +146,11 @@ class PathautoUiTest extends WebTestBase {
     // Check that the pattern weight did not change.
     $this->assertOptionSelected('edit-entities-page-pattern-weight', '4');
 
+    $edit = array('label' => 'Test Duplicate', 'id' => 'page_pattern_test_duplicate');
+    $this->drupalPostForm('/admin/config/search/path/patterns/page_pattern/duplicate', $edit, t('Save'));
+    $this->assertText('Pattern Test Duplicate saved.');
+    PathautoPattern::load('page_pattern_test_duplicate')->delete();
+
     // Disable workflow.
     $this->drupalGet('/admin/config/search/path/patterns');
     $this->assertNoLink(t('Enable'));
