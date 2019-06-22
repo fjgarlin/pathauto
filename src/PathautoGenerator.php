@@ -5,6 +5,8 @@ namespace Drupal\pathauto;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\EntityMalformedException;
+use Drupal\Core\Entity\Exception\UndefinedLinkTemplateException;
 use Drupal\Core\Entity\RevisionableInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Language\LanguageInterface;
@@ -159,7 +161,21 @@ class PathautoGenerator implements PathautoGeneratorInterface {
       return NULL;
     }
 
-    $source = '/' . $entity->toUrl()->getInternalPath();
+    try {
+      $internalPath = $entity->toUrl()->getInternalPath();
+    }
+    // @todo convert to multi-exception handling in PHP 7.1.
+    catch (EntityMalformedException $exception) {
+      return NULL;
+    }
+    catch (UndefinedLinkTemplateException $exception) {
+      return NULL;
+    }
+    catch (\UnexpectedValueException $exception) {
+      return NULL;
+    }
+
+    $source = '/' . $internalPath;
     $config = $this->configFactory->get('pathauto.settings');
     $langcode = $entity->language()->getId();
 
