@@ -55,6 +55,7 @@ class PathautoTokenTest extends KernelTestBase {
       '[example:login-url:relative]',
       '[example:url:relative]',
       '[example:safe]',
+      '[safe:example]',
     ];
     $unsafe_tokens = [
       '[example:path_part]',
