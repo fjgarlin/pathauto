@@ -1,19 +1,20 @@
 <?php
 
-namespace Drupal\pathauto\Tests;
+namespace Drupal\Tests\pathauto\FunctionalJavascript;
 
 use Drupal\Core\Language\Language;
 use Drupal\Core\Language\LanguageInterface;
 use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\pathauto\PathautoState;
-use Drupal\simpletest\WebTestBase;
+use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
+use Drupal\Tests\pathauto\Functional\PathautoTestHelperTrait;
 
 /**
  * Test pathauto functionality with localization and translation.
  *
  * @group pathauto
  */
-class PathautoLocaleTest extends WebTestBase {
+class PathautoLocaleTest extends WebDriverTestBase {
 
   use PathautoTestHelperTrait;
 
@@ -113,35 +114,33 @@ class PathautoLocaleTest extends WebTestBase {
 
     // Create a pattern for English articles.
     $this->drupalGet('admin/config/search/path/patterns/add');
-    $edit = [
-      'type' => 'canonical_entities:node',
-    ];
-    $this->drupalPostAjaxForm(NULL, $edit, 'type');
-    $edit += [
-      'pattern' => '/the-articles/[node:title]',
-      'label' => 'English articles',
-      'id' => 'english_articles',
-      'bundles[article]' => TRUE,
-      'languages[en]' => TRUE,
-    ];
-    $this->drupalPostForm(NULL, $edit, 'Save');
-    $this->assertText('Pattern English articles saved.');
+
+    $session = $this->getSession();
+    $page = $session->getPage();
+    $page->fillField('type', 'canonical_entities:node');
+    $this->assertSession()->assertWaitOnAjaxRequest();
+
+    $page->fillField('pattern', '/the-articles/[node:title]');
+    $page->fillField('bundles[article]', TRUE);
+    $page->fillField('languages[en]', TRUE);
+    $page->fillField('label', 'English articles');
+    $this->assertSession()->waitForElementVisible('css', '#edit-label-machine-name-suffix .machine-name-value');
+    $page->pressButton('Save');
+    $this->assertSession()->pageTextContains('Pattern English articles saved.');
 
     // Create a pattern for French articles.
     $this->drupalGet('admin/config/search/path/patterns/add');
-    $edit = [
-      'type' => 'canonical_entities:node',
-    ];
-    $this->drupalPostAjaxForm(NULL, $edit, 'type');
-    $edit += [
-      'pattern' => '/les-articles/[node:title]',
-      'label' => 'French articles',
-      'id' => 'french_articles',
-      'bundles[article]' => TRUE,
-      'languages[fr]' => TRUE,
-    ];
-    $this->drupalPostForm(NULL, $edit, 'Save');
-    $this->assertText('Pattern French articles saved.');
+
+    $page->fillField('type', 'canonical_entities:node');
+    $this->assertSession()->assertWaitOnAjaxRequest();
+
+    $page->fillField('pattern', '/les-articles/[node:title]');
+    $page->fillField('bundles[article]', TRUE);
+    $page->fillField('languages[fr]', TRUE);
+    $page->fillField('label', 'French articles');
+    $this->assertSession()->waitForElementVisible('css', '#edit-label-machine-name-suffix .machine-name-value');
+    $page->pressButton('Save');
+    $this->assertSession()->pageTextContains('Pattern French articles saved.');
 
     // Create a node and its translation. Assert aliases.
     $edit = [
@@ -171,7 +170,7 @@ class PathautoLocaleTest extends WebTestBase {
       'update[canonical_entities:node]' => TRUE,
     ];
     $this->drupalPostForm('admin/config/search/path/update_bulk', $edit, t('Update'));
-    $this->assertText(t('Generated 2 URL aliases.'));
+    $this->assertSession()->pageTextContains(t('Generated 2 URL aliases.'));
     $this->assertAlias('/node/' . $english_node->id(), '/the-articles/english-node', 'en');
     $this->assertAlias('/node/' . $french_node->id(), '/les-articles/french-node', 'fr');
   }
@@ -196,7 +195,7 @@ class PathautoLocaleTest extends WebTestBase {
 
     // Check that the alias works.
     $this->drupalGet('content/test-node');
-    $this->assertResponse(200);
+    $this->assertSession()->pageTextContains(t('Test node'));
   }
 
   /**

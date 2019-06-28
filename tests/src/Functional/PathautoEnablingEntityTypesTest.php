@@ -1,8 +1,8 @@
 <?php
 
-namespace Drupal\pathauto\Tests;
+namespace Drupal\Tests\pathauto\Functional;
 
-use Drupal\simpletest\WebTestBase;
+use Drupal\Tests\BrowserTestBase;
 use Drupal\comment\Tests\CommentTestTrait;
 
 /**
@@ -10,7 +10,7 @@ use Drupal\comment\Tests\CommentTestTrait;
  *
  * @group pathauto
  */
-class PathautoEnablingEntityTypesTest extends WebTestBase {
+class PathautoEnablingEntityTypesTest extends BrowserTestBase {
 
   use PathautoTestHelperTrait;
 

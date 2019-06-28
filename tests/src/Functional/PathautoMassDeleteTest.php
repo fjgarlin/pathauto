@@ -1,16 +1,16 @@
 <?php
 
-namespace Drupal\pathauto\Tests;
+namespace Drupal\Tests\pathauto\Functional;
 
 use Drupal\pathauto\PathautoState;
-use Drupal\simpletest\WebTestBase;
+use Drupal\Tests\BrowserTestBase;
 
 /**
  * Mass delete functionality tests.
  *
  * @group pathauto
  */
-class PathautoMassDeleteTest extends WebTestBase {
+class PathautoMassDeleteTest extends BrowserTestBase {
 
   use PathautoTestHelperTrait;
 

@@ -11,7 +11,7 @@ use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\node\Entity\NodeType;
 use Drupal\pathauto\PathautoGeneratorInterface;
 use Drupal\pathauto\PathautoState;
-use Drupal\pathauto\Tests\PathautoTestHelperTrait;
+use Drupal\Tests\pathauto\Functional\PathautoTestHelperTrait;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
@@ -72,7 +72,7 @@ class PathautoKernelTest extends KernelTestBase {
    * Test _pathauto_get_schema_alias_maxlength().
    */
   public function testGetSchemaAliasMaxLength() {
-    $this->assertIdentical(\Drupal::service('pathauto.alias_storage_helper')->getAliasSchemaMaxlength(), 255);
+    $this->assertSame(\Drupal::service('pathauto.alias_storage_helper')->getAliasSchemaMaxlength(), 255);
   }
 
   /**
@@ -153,7 +153,7 @@ class PathautoKernelTest extends KernelTestBase {
       $entity = \Drupal::entityTypeManager()->getStorage($test['entity'])->create($test['values']);
       $entity->save();
       $actual = \Drupal::service('pathauto.generator')->getPatternByEntity($entity);
-      $this->assertIdentical($actual->getPattern(), $test['expected'], t("Correct pattern returned for @entity_type with @values", [
+      $this->assertSame($actual->getPattern(), $test['expected'], t("Correct pattern returned for @entity_type with @values", [
         '@entity' => $test['entity'],
         '@values' => print_r($test['values'], TRUE),
       ]));
@@ -215,7 +215,7 @@ class PathautoKernelTest extends KernelTestBase {
 
     foreach ($tests as $input => $expected) {
       $output = \Drupal::service('pathauto.alias_cleaner')->cleanString($input);
-      $this->assertEqual($output, $expected, t("Drupal::service('pathauto.alias_cleaner')->cleanString('@input') expected '@expected', actual '@output'", [
+      $this->assertEquals($output, $expected, t("Drupal::service('pathauto.alias_cleaner')->cleanString('@input') expected '@expected', actual '@output'", [
         '@input' => $input,
         '@expected' => $expected,
         '@output' => $output,
@@ -236,7 +236,7 @@ class PathautoKernelTest extends KernelTestBase {
 
     foreach ($tests as $input => $expected) {
       $output = \Drupal::service('pathauto.alias_cleaner')->cleanAlias($input);
-      $this->assertEqual($output, $expected, t("Drupal::service('pathauto.generator')->cleanAlias('@input') expected '@expected', actual '@output'", [
+      $this->assertEquals($output, $expected, t("Drupal::service('pathauto.generator')->cleanAlias('@input') expected '@expected', actual '@output'", [
         '@input' => $input,
         '@expected' => $expected,
         '@output' => $output,

@@ -1,18 +1,18 @@
 <?php
 
-namespace Drupal\pathauto\Tests;
+namespace Drupal\Tests\pathauto\Functional;
 
 use Drupal\pathauto\Entity\PathautoPattern;
 use Drupal\node\Entity\Node;
 use Drupal\pathauto\PathautoState;
-use Drupal\simpletest\WebTestBase;
+use Drupal\Tests\BrowserTestBase;
 
 /**
  * Tests pathauto node UI integration.
  *
  * @group pathauto
  */
-class PathautoNodeWebTest extends WebTestBase {
+class PathautoNodeWebTest extends BrowserTestBase {
 
   use PathautoTestHelperTrait;
 
