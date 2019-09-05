@@ -443,10 +443,18 @@ class PathautoKernelTest extends KernelTestBase {
    * Test programmatic entity creation for aliases.
    */
   function testProgrammaticEntityCreation() {
-    $this->createPattern('taxonomy_term', '/[term:vocabulary]/[term:name]');
     $node = $this->drupalCreateNode(['title' => 'Test node', 'path' => ['pathauto' => TRUE]]);
     $this->assertEntityAlias($node, '/content/test-node');
 
+    // Check the case when the pathauto widget is hidden, so it can not populate
+    // the 'pathauto' property, and
+    // \Drupal\path\Plugin\Field\FieldType\PathFieldItemList::computeValue()
+    // populates the 'path' field with a 'langcode' property, for example during
+    // an AJAX call on the entity form.
+    $node = $this->drupalCreateNode(['title' => 'Test node 2', 'path' => ['langcode' => 'en']]);
+    $this->assertEntityAlias($node, '/content/test-node-2');
+
+    $this->createPattern('taxonomy_term', '/[term:vocabulary]/[term:name]');
     $vocabulary = $this->addVocabulary(['name' => 'Tags']);
     $term = $this->addTerm($vocabulary, ['name' => 'Test term', 'path' => ['pathauto' => TRUE]]);
     $this->assertEntityAlias($term, '/tags/test-term');
