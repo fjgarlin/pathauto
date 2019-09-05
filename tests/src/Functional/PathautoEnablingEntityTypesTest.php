@@ -59,8 +59,8 @@ class PathautoEnablingEntityTypesTest extends BrowserTestBase {
     // Verify that the comment entity type is not available when trying to add
     // a new pattern, nor "broken".
     $this->drupalGet('/admin/config/search/path/patterns/add');
-    $this->assertEqual(count($this->cssSelect('option[value = "canonical_entities:comment"]:contains(Comment)')), 0);
-    $this->assertEqual(count($this->cssSelect('option:contains(Broken)')), 0);
+    $this->assertCount(0, $this->cssSelect('option[value = "canonical_entities:comment"]:contains(Comment)'));
+    $this->assertCount(0, $this->cssSelect('option:contains(Broken)'));
 
     // Enable the entity type and create a pattern for it.
     $this->drupalGet('/admin/config/search/path/settings');
@@ -82,7 +82,7 @@ class PathautoEnablingEntityTypesTest extends BrowserTestBase {
     // be disabled.
     $this->assertAliasExists(['alias' => '/comment/test-body']);
     $this->drupalGet('/admin/config/search/path/settings');
-    $this->assertEqual(count($this->cssSelect('input[name = "enabled_entity_types[comment]"][disabled = "disabled"]')), 1);
+    $this->assertCount(1, $this->cssSelect('input[name = "enabled_entity_types[comment]"][disabled = "disabled"]'));
   }
 
 }

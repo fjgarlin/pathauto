@@ -215,7 +215,7 @@ class PathautoKernelTest extends KernelTestBase {
 
     foreach ($tests as $input => $expected) {
       $output = \Drupal::service('pathauto.alias_cleaner')->cleanString($input);
-      $this->assertEquals($output, $expected, t("Drupal::service('pathauto.alias_cleaner')->cleanString('@input') expected '@expected', actual '@output'", [
+      $this->assertEquals($expected, $output, t("Drupal::service('pathauto.alias_cleaner')->cleanString('@input') expected '@expected', actual '@output'", [
         '@input' => $input,
         '@expected' => $expected,
         '@output' => $output,
@@ -236,7 +236,7 @@ class PathautoKernelTest extends KernelTestBase {
 
     foreach ($tests as $input => $expected) {
       $output = \Drupal::service('pathauto.alias_cleaner')->cleanAlias($input);
-      $this->assertEquals($output, $expected, t("Drupal::service('pathauto.generator')->cleanAlias('@input') expected '@expected', actual '@output'", [
+      $this->assertEquals($expected, $output, t("Drupal::service('pathauto.generator')->cleanAlias('@input') expected '@expected', actual '@output'", [
         '@input' => $input,
         '@expected' => $expected,
         '@output' => $output,

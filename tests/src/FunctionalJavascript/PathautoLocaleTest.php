@@ -191,7 +191,7 @@ class PathautoLocaleTest extends WebDriverTestBase {
 
     // Check that the generated alias has language Not Specified.
     $alias = \Drupal::service('pathauto.alias_storage_helper')->loadBySource('/node/' . $node->id());
-    $this->assertEqual($alias['langcode'], LanguageInterface::LANGCODE_NOT_SPECIFIED, 'PathautoGenerator::createEntityAlias() adjusts the alias langcode from Not Applicable to Not Specified.');
+    $this->assertEquals(LanguageInterface::LANGCODE_NOT_SPECIFIED, $alias['langcode'], 'PathautoGenerator::createEntityAlias() adjusts the alias langcode from Not Applicable to Not Specified.');
 
     // Check that the alias works.
     $this->drupalGet('content/test-node');

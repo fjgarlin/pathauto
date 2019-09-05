@@ -84,7 +84,7 @@ class PathautoMassDeleteTest extends BrowserTestBase {
 
     // Make sure that all of them are actually deleted.
     $aliases = \Drupal::database()->select('url_alias', 'ua')->fields('ua', [])->execute()->fetchAll();
-    $this->assertEqual($aliases, [], "All the aliases have been deleted.");
+    $this->assertEmpty($aliases, "All the aliases have been deleted.");
 
     // 2. Test deleting only specific (entity type) aliases.
     $manager = $this->container->get('plugin.manager.alias_type');
@@ -128,7 +128,7 @@ class PathautoMassDeleteTest extends BrowserTestBase {
     // Make sure that only custom aliases and aliases with no information about
     // their state still exist.
     $aliases = \Drupal::database()->select('url_alias', 'ua')->fields('ua', ['source'])->execute()->fetchCol();
-    $this->assertEqual($aliases, ['/node/101', '/node/104', '/node/105'], 'Custom aliases still exist.');
+    $this->assertEquals(['/node/101', '/node/104', '/node/105'], $aliases, 'Custom aliases still exist.');
   }
 
   /**
