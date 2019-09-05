@@ -53,7 +53,7 @@ class PathautoKernelTest extends KernelTestBase {
     ConfigurableLanguage::createFromLangcode('fr')->save();
 
     $this->installSchema('node', ['node_access']);
-    $this->installSchema('system', ['url_alias', 'sequences', 'router']);
+    $this->installSchema('system', ['sequences']);
 
     $type = NodeType::create(['type' => 'page']);
     $type->save();
