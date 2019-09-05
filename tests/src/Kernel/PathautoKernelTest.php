@@ -461,7 +461,7 @@ class PathautoKernelTest extends KernelTestBase {
 
     $edit['name'] = 'Test user';
     $edit['mail'] = 'test-user@example.com';
-    $edit['pass']   = user_password();
+    $edit['pass'] = user_password();
     $edit['path'] = ['pathauto' => TRUE];
     $edit['status'] = 1;
     $account = User::create($edit);
@@ -581,8 +581,8 @@ class PathautoKernelTest extends KernelTestBase {
   protected function drupalCreateNode(array $settings = [] ){
     // Populate defaults array.
     $settings += [
-      'title'     => $this->randomMachineName(8),
-      'type'      => 'page',
+      'title' => $this->randomMachineName(8),
+      'type' => 'page',
     ];
 
     $node = Node::create($settings);
