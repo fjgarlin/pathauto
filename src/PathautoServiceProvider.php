@@ -18,6 +18,7 @@ class PathautoServiceProvider extends ServiceProviderBase {
     if (version_compare(\Drupal::VERSION, '8.8', '<')) {
       $definition = $container->getDefinition('pathauto.alias_storage_helper');
       $definition->setClass(LegacyAliasStorageHelper::class);
+      $definition->setArgument(1, new Reference('path.alias_storage'));
     }
   }
 

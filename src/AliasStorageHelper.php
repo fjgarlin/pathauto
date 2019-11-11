@@ -7,8 +7,7 @@ use Drupal\Core\Database\Connection;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Language\LanguageInterface;
-use Drupal\Core\Path\AliasStorageInterface;
-use Drupal\Core\Path\Entity\PathAlias;
+use Drupal\Core\Path\AliasRepositoryInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
 
@@ -34,11 +33,11 @@ class AliasStorageHelper implements AliasStorageHelperInterface {
   protected $configFactory;
 
   /**
-   * The alias storage.
+   * The alias repository.
    *
-   * @var \Drupal\Core\Path\AliasStorageInterface
+   * @var \Drupal\Core\Path\AliasRepositoryInterface
    */
-  protected $aliasStorage;
+  protected $aliasRepository;
 
   /**
    * The database connection.
@@ -66,8 +65,8 @@ class AliasStorageHelper implements AliasStorageHelperInterface {
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory.
-   * @param \Drupal\Core\Path\AliasStorageInterface $alias_storage
-   *   The alias storage.
+   * @param \Drupal\Core\Path\AliasRepositoryInterface $alias_repository
+   *   The alias repository.
    * @param \Drupal\Core\Database\Connection $database
    *   The database connection.
    * @param MessengerInterface $messenger
@@ -77,9 +76,9 @@ class AliasStorageHelper implements AliasStorageHelperInterface {
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manger.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, AliasStorageInterface $alias_storage, Connection $database, MessengerInterface $messenger, TranslationInterface $string_translation, EntityTypeManagerInterface $entity_type_manager = NULL) {
+  public function __construct(ConfigFactoryInterface $config_factory, AliasRepositoryInterface $alias_repository, Connection $database, MessengerInterface $messenger, TranslationInterface $string_translation, EntityTypeManagerInterface $entity_type_manager = NULL) {
     $this->configFactory = $config_factory;
-    $this->aliasStorage = $alias_storage;
+    $this->aliasRepository = $alias_repository;
     $this->database = $database;
     $this->messenger = $messenger;
     $this->stringTranslation = $string_translation;
@@ -104,7 +103,7 @@ class AliasStorageHelper implements AliasStorageHelperInterface {
     $alias = $path['alias'];
     $langcode = $path['language'];
     if ($existing_alias) {
-      /** @var \Drupal\Core\Path\PathAliasInterface $existing_alias */
+      /** @var \Drupal\path_alias\PathAliasInterface $existing_alias */
       $existing_alias = $this->entityTypeManager->getStorage('path_alias')->load($existing_alias['pid']);
     }
 
@@ -136,7 +135,7 @@ class AliasStorageHelper implements AliasStorageHelperInterface {
     }
     else {
       // Otherwise, create a new alias.
-      $path_alias = PathAlias::create([
+      $path_alias = $this->entityTypeManager->getStorage('path_alias')->create([
         'path' => $source,
         'alias' => $alias,
         'langcode' => $langcode,
@@ -163,19 +162,15 @@ class AliasStorageHelper implements AliasStorageHelperInterface {
    * {@inheritdoc}
    */
   public function loadBySource($source, $language = LanguageInterface::LANGCODE_NOT_SPECIFIED) {
-    $alias = $this->aliasStorage->load([
-      'source' => $source,
-      'langcode' => $language,
-    ]);
-    // If no alias was fetched and if a language was specified, fallbacks to
-    // undefined language.
-    if (!$alias && ($language !== LanguageInterface::LANGCODE_NOT_SPECIFIED)) {
-      $alias = $this->aliasStorage->load([
-        'source' => $source,
-        'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED,
-      ]);
+    $alias = $this->aliasRepository->lookupBySystemPath($source, $language);
+    if ($alias) {
+      return [
+        'pid' => $alias['id'],
+        'alias' => $alias['alias'],
+        'source' => $alias['path'],
+        'langcode' => $alias['langcode'],
+      ];
     }
-    return $alias;
   }
 
   /**

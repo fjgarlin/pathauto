@@ -7,6 +7,10 @@ use Drupal\Core\Language\LanguageInterface;
 
 /**
  * Provides helper methods for accessing alias storage.
+ *
+ * @internal This interface is internal to pathauto, it abstracts direct alias
+ *   storage access as well as backwards-compatibility for 8.7 and will be
+ *   refactored.
  */
 interface AliasStorageHelperInterface {
 
