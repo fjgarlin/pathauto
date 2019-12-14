@@ -129,7 +129,7 @@ trait PathautoTestHelperTrait {
 
   public function assertAliasExists($conditions) {
     $path = \Drupal::service('path.alias_storage')->load($conditions);
-    $this->assertTrue($path, t('Alias with conditions @conditions found.', ['@conditions' => var_export($conditions, TRUE)]));
+    $this->assertNotEmpty($path, t('Alias with conditions @conditions found.', ['@conditions' => var_export($conditions, TRUE)]));
     return $path;
   }
 

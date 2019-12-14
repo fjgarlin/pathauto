@@ -15,6 +15,11 @@ class PathautoBulkUpdateTest extends BrowserTestBase {
 
   use PathautoTestHelperTrait;
 
+ /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stable';
+
   /**
    * Modules to enable.
    *

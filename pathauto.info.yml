@@ -1,12 +1,11 @@
 name : 'Pathauto'
 description : 'Provides a mechanism for modules to automatically generate aliases for the content they manage.'
-core: 8.x
+core_version_requirement: ^8.7.7 || ^9
 type: module
 
 dependencies:
 - ctools:ctools
 - drupal:path
-- drupal:system (>=8.6)
 - token:token
 
 configure: entity.pathauto_pattern.collection

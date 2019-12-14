@@ -17,6 +17,11 @@ class PathautoEnablingEntityTypesTest extends BrowserTestBase {
   use CommentTestTrait;
 
   /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stable';
+
+  /**
    * Modules to enable.
    *
    * @var array
