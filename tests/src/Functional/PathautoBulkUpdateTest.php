@@ -98,7 +98,7 @@ class PathautoBulkUpdateTest extends BrowserTestBase {
     }
     $this->assertEntityAliasExists($this->adminUser);
     // This is the default "General discussion" forum.
-    $this->assertAliasExists(['source' => '/taxonomy/term/1']);
+    $this->assertAliasExists(['path' => '/taxonomy/term/1']);
 
     // Add a new node.
     $new_node = $this->drupalCreateNode(['path' => ['alias' => '', 'pathauto' => PathautoState::SKIP]]);

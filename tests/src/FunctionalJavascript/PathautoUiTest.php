@@ -199,7 +199,7 @@ class PathautoUiTest extends WebDriverTestBase {
     $this->drupalPostForm(NULL, [], t('Delete'));
     $this->assertSession()->pageTextContains('The pathauto pattern Test has been deleted.');
 
-    $this->assertFalse(PathautoPattern::load('page_pattern'));
+    $this->assertEmpty(PathautoPattern::load('page_pattern'));
   }
 
 }

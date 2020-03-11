@@ -60,8 +60,8 @@ class PathautoLocaleTest extends WebDriverTestBase {
       ]],
      ];
     $node = $this->drupalCreateNode($node);
-    $english_alias = \Drupal::service('path.alias_storage')->load(['alias' => '/english-node', 'langcode' => 'en']);
-    $this->assertTrue($english_alias, 'Alias created with proper language.');
+    $english_alias = $this->loadPathAliasByConditions(['alias' => '/english-node', 'langcode' => 'en']);
+    $this->assertNotEmpty($english_alias, 'Alias created with proper language.');
 
     // Also save a French alias that should not be left alone, even though
     // it is the newer alias.
@@ -69,7 +69,7 @@ class PathautoLocaleTest extends WebDriverTestBase {
 
     // Add an alias with the soon-to-be generated alias, causing the upcoming
     // alias update to generate a unique alias with the '-0' suffix.
-    $this->saveAlias('/node/invalid', '/content/english-node', Language::LANGCODE_NOT_SPECIFIED);
+    $this->createPathAlias('/node/invalid', '/content/english-node', Language::LANGCODE_NOT_SPECIFIED);
 
     // Update the node, triggering a change in the English alias.
     $node->path->pathauto = PathautoState::CREATE;
@@ -78,7 +78,7 @@ class PathautoLocaleTest extends WebDriverTestBase {
     // Check that the new English alias replaced the old one.
     $this->assertEntityAlias($node, '/content/english-node-0', 'en');
     $this->assertEntityAlias($node, '/french-node', 'fr');
-    $this->assertAliasExists(['pid' => $english_alias['pid'], 'alias' => '/content/english-node-0']);
+    $this->assertAliasExists(['id' => $english_alias->id(), 'alias' => '/content/english-node-0']);
 
     // Create a new node with the same title as before but without
     // specifying a language.
