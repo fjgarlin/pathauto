@@ -57,7 +57,7 @@ class PathautoMassDeleteTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  function setUp() {
+  protected function setUp() {
     parent::setUp();
 
     $permissions = [
@@ -76,7 +76,7 @@ class PathautoMassDeleteTest extends BrowserTestBase {
   /**
    * Tests the deletion of all the aliases.
    */
-  function testDeleteAll() {
+  public function testDeleteAll() {
     /** @var \Drupal\pathauto\AliasStorageHelperInterface $alias_storage_helper */
     $alias_storage_helper = \Drupal::service('pathauto.alias_storage_helper');
 
@@ -143,7 +143,7 @@ class PathautoMassDeleteTest extends BrowserTestBase {
   /**
    * Helper function to generate aliases.
    */
-  function generateAliases() {
+  public function generateAliases() {
     // Delete all aliases to avoid duplicated aliases. They will be recreated
     // below.
     $this->deleteAllAliases();

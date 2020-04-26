@@ -35,7 +35,7 @@ class PathautoTaxonomyWebTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  function setUp() {
+  protected function setUp() {
     parent::setUp();
 
     // Allow other modules to add additional permissions for the admin user.
@@ -54,7 +54,7 @@ class PathautoTaxonomyWebTest extends BrowserTestBase {
   /**
    * Basic functional testing of Pathauto with taxonomy terms.
    */
-  function testTermEditing() {
+  public function testTermEditing() {
     $this->drupalGet('admin/structure');
     $this->drupalGet('admin/structure/taxonomy');
 

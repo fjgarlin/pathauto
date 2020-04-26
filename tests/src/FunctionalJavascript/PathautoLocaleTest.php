@@ -44,7 +44,7 @@ class PathautoLocaleTest extends WebDriverTestBase {
    * Test that when an English node is updated, its old English alias is
    * updated and its newer French alias is left intact.
    */
-  function testLanguageAliases() {
+  public function testLanguageAliases() {
 
     $this->createPattern('node', '/content/[node:title]');
 
@@ -92,7 +92,7 @@ class PathautoLocaleTest extends WebDriverTestBase {
   /**
    * Test that patterns work on multilingual content.
    */
-  function testLanguagePatterns() {
+  public function testLanguagePatterns() {
 
     // Allow other modules to add additional permissions for the admin user.
     $permissions = [

@@ -363,7 +363,7 @@ class PathautoKernelTest extends KernelTestBase {
   /**
    * Test using fields for path structures.
    */
-  function testParentChildPathTokens() {
+  public function testParentChildPathTokens() {
     // First create a field which will be used to create the path. It must
     // begin with a letter.
     $this->installEntitySchema('taxonomy_term');
@@ -411,7 +411,7 @@ class PathautoKernelTest extends KernelTestBase {
     $this->assertEntityPattern('taxonomy_term', 'name', Language::LANGCODE_NOT_SPECIFIED, 'bundle');
   }
 
-  function testNoExistingPathAliases() {
+  public function testNoExistingPathAliases() {
     $this->config('pathauto.settings')
       ->set('punctuation.period', PathautoGeneratorInterface::PUNCTUATION_DO_NOTHING)
       ->save();
@@ -444,7 +444,7 @@ class PathautoKernelTest extends KernelTestBase {
   /**
    * Test programmatic entity creation for aliases.
    */
-  function testProgrammaticEntityCreation() {
+  public function testProgrammaticEntityCreation() {
     $node = $this->drupalCreateNode(['title' => 'Test node', 'path' => ['pathauto' => TRUE]]);
     $this->assertEntityAlias($node, '/content/test-node');
 
@@ -474,7 +474,7 @@ class PathautoKernelTest extends KernelTestBase {
   /**
    * Tests word safe alias truncating.
    */
-  function testPathAliasUniquifyWordsafe() {
+  public function testPathAliasUniquifyWordsafe() {
     $this->config('pathauto.settings')
       ->set('max_length', 26)
       ->save();
@@ -492,7 +492,7 @@ class PathautoKernelTest extends KernelTestBase {
   /**
    * Test if aliases are (not) generated with enabled/disabled patterns.
    */
-  function testPatternStatus() {
+  public function testPatternStatus() {
     // Create a node to get an alias for.
     $title = 'Pattern enabled';
     $alias = '/content/pattern-enabled';

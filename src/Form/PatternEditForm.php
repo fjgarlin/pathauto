@@ -72,7 +72,7 @@ class PatternEditForm extends EntityForm {
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
    *   The language manager service.
    */
-  function __construct(AliasTypeManager $manager, EntityTypeBundleInfoInterface $entity_type_bundle_info, EntityTypeManagerInterface $entity_type_manager, LanguageManagerInterface $language_manager) {
+  public function __construct(AliasTypeManager $manager, EntityTypeBundleInfoInterface $entity_type_bundle_info, EntityTypeManagerInterface $entity_type_manager, LanguageManagerInterface $language_manager) {
     $this->manager = $manager;
     $this->entityTypeBundleInfo = $entity_type_bundle_info;
     $this->entityTypeManager = $entity_type_manager;

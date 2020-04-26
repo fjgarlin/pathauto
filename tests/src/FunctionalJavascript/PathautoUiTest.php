@@ -38,7 +38,7 @@ class PathautoUiTest extends WebDriverTestBase {
   /**
    * {@inheritdoc}
    */
-  function setUp() {
+  protected function setUp() {
     parent::setUp();
 
     $this->drupalCreateContentType(['type' => 'page', 'name' => 'Basic page']);
@@ -57,7 +57,7 @@ class PathautoUiTest extends WebDriverTestBase {
     $this->drupalLogin($this->adminUser);
   }
 
-  function testSettingsValidation() {
+  public function testSettingsValidation() {
     $this->drupalGet('/admin/config/search/path/settings');
 
     $this->assertSession()->fieldExists('max_length');
@@ -67,7 +67,7 @@ class PathautoUiTest extends WebDriverTestBase {
     $this->assertSession()->elementAttributeContains('css', '#edit-max-component-length', 'min', '1');
   }
 
-  function testPatternsWorkflow() {
+  public function testPatternsWorkflow() {
     $this->drupalPlaceBlock('local_tasks_block', ['id' => 'local-tasks-block']);
     $this->drupalPlaceBlock('local_actions_block');
     $this->drupalPlaceBlock('page_title_block');

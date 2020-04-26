@@ -38,7 +38,7 @@ class PathautoNodeWebTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  function setUp() {
+  protected function setUp() {
     parent::setUp();
 
     $this->drupalCreateContentType(['type' => 'page', 'name' => 'Basic page']);
@@ -61,7 +61,7 @@ class PathautoNodeWebTest extends BrowserTestBase {
   /**
    * Tests editing nodes with different settings.
    */
-  function testNodeEditing() {
+  public function testNodeEditing() {
     // Ensure that the Pathauto checkbox is checked by default on the node add
     // form.
     $this->drupalGet('node/add/page');
@@ -149,7 +149,7 @@ class PathautoNodeWebTest extends BrowserTestBase {
   /**
    * Test node operations.
    */
-  function testNodeOperations() {
+  public function testNodeOperations() {
     $node1 = $this->drupalCreateNode(['title' => 'node1']);
     $node2 = $this->drupalCreateNode(['title' => 'node2']);
 

@@ -51,7 +51,7 @@ class PathautoBulkUpdateTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  function setUp() {
+  protected function setUp() {
     parent::setUp();
 
     // Allow other modules to add additional permissions for the admin user.
@@ -70,7 +70,7 @@ class PathautoBulkUpdateTest extends BrowserTestBase {
     $this->patterns['forum'] = $this->createPattern('forum', '/forums/[term:name]');
   }
 
-  function testBulkUpdate() {
+  public function testBulkUpdate() {
     // Create some nodes.
     $this->nodes = [];
     for ($i = 1; $i <= 5; $i++) {
@@ -139,7 +139,7 @@ class PathautoBulkUpdateTest extends BrowserTestBase {
   /**
    * Tests alias generation for nodes that existed before installing Pathauto.
    */
-  function testBulkUpdateExistingContent() {
+  public function testBulkUpdateExistingContent() {
     // Create a node.
     $node = $this->drupalCreateNode();
 
