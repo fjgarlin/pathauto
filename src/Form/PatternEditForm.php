@@ -256,7 +256,7 @@ class PatternEditForm extends EntityForm {
             ]
           ]
         );
-        $entity->addRelationship($language_mapping, t('Language'));
+        $entity->addRelationship($language_mapping, $this->t('Language'));
       }
 
     }
