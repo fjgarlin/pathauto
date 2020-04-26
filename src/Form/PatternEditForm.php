@@ -139,7 +139,7 @@ class PatternEditForm extends EntityForm {
 
         $default_bundles = [];
         $default_languages = [];
-        foreach ($this->entity->getSelectionConditions() as $condition_id => $condition) {
+        foreach ($this->entity->getSelectionConditions() as $condition) {
           if (in_array($condition->getPluginId(), ['entity_bundle:' . $entity_type->id(), 'node_type'])) {
             $default_bundles = $condition->getConfiguration()['bundles'];
           }

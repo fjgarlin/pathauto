@@ -403,7 +403,7 @@ class PathautoKernelTest extends KernelTestBase {
    */
   public function testTaxonomyPattern() {
     // Create a vocabulary and test that it's pattern variable works.
-    $vocab = $this->addVocabulary(['vid' => 'name']);
+    $this->addVocabulary(['vid' => 'name']);
     $this->createPattern('taxonomy_term', 'base');
     $pattern = $this->createPattern('taxonomy_term', 'bundle', -1);
     $this->addBundleCondition($pattern, 'taxonomy_term', 'name');

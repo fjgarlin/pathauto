@@ -181,7 +181,7 @@ class PathautoMassDeleteTest extends BrowserTestBase {
       }
     }
     else {
-      foreach ($this->accounts as $id => $account) {
+      foreach ($this->accounts as $account) {
         $account->save();
       }
     }

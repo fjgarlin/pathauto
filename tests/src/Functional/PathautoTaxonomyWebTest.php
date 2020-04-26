@@ -59,7 +59,7 @@ class PathautoTaxonomyWebTest extends BrowserTestBase {
     $this->drupalGet('admin/structure/taxonomy');
 
     // Add vocabulary "tags".
-    $vocabulary = $this->addVocabulary(['name' => 'tags', 'vid' => 'tags']);
+    $this->addVocabulary(['name' => 'tags', 'vid' => 'tags']);
 
     // Create term for testing.
     $name = 'Testing: term name [';
