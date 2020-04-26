@@ -27,7 +27,7 @@ class PathautoKernelTest extends KernelTestBase {
 
   use PathautoTestHelperTrait;
 
-  public static $modules = ['system', 'field', 'text', 'user', 'node', 'path', 'path_alias', 'pathauto', 'taxonomy', 'token', 'filter', 'ctools', 'language'];
+  public static $modules = ['system', 'field', 'text', 'user', 'node', 'path', 'path_alias', 'pathauto', 'pathauto_custom_punctuation_test', 'taxonomy', 'token', 'filter', 'ctools', 'language'];
 
   protected $currentUser;
 
@@ -192,6 +192,11 @@ class PathautoKernelTest extends KernelTestBase {
 
     // Test with default settings defined in pathauto.settings.yml.
     $this->installConfig(['pathauto']);
+
+    // Add a custom setting for the copyright symbol defined in
+    // pathauto_custom_punctuation_test_pathauto_punctuation_chars_alter().
+    $this->config('pathauto.settings')->set('punctuation.copyright', PathautoGeneratorInterface::PUNCTUATION_REMOVE);
+
     \Drupal::service('pathauto.generator')->resetCaches();
 
     $tests = [];
@@ -214,6 +219,9 @@ class PathautoKernelTest extends KernelTestBase {
 
     // Transliteration.
     $tests['ľščťžýáíéňô'] = 'lsctzyaieno';
+
+    // Transliteration of special chars that are converted to punctuation.
+    $tests['© “Drupal”'] = 'drupal';
 
     foreach ($tests as $input => $expected) {
       $output = \Drupal::service('pathauto.alias_cleaner')->cleanString($input);
