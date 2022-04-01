@@ -41,6 +41,7 @@ REQUIREMENTS
 This module requires the following module:
 
  * Token - https://www.drupal.org/project/token
+ * CTools - https://www.drupal.org/project/ctools
 
 
 RECOMMENDED MODULES
