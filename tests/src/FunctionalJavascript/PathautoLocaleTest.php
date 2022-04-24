@@ -60,7 +60,7 @@ class PathautoLocaleTest extends WebDriverTestBase {
         'alias' => '/english-node',
         'pathauto' => FALSE,
       ]],
-     ];
+    ];
     $node = $this->drupalCreateNode($node);
     $english_alias = $this->loadPathAliasByConditions(['alias' => '/english-node', 'langcode' => 'en']);
     $this->assertNotEmpty($english_alias, 'Alias created with proper language.');

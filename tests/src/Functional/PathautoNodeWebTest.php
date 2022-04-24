@@ -191,7 +191,7 @@ class PathautoNodeWebTest extends BrowserTestBase {
       'type' => 'page',
       'path' => [
         'pathauto' => PathautoState::SKIP,
-    ],
+      ],
     ]);
 
     $this->assertNoEntityAlias($node);
