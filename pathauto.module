@@ -172,16 +172,3 @@ function pathauto_pattern_validate($element, FormStateInterface $form_state) {
   return $element;
 
 }
-
-/**
- * Implements hook_local_tasks_alter().
- */
-function pathauto_local_tasks_alter(&$local_tasks) {
-  if (version_compare(\Drupal::VERSION, '8.8', '<')) {
-    foreach ($local_tasks as &$local_task) {
-      if (isset($local_task['provider']) && $local_task['provider'] === 'pathauto') {
-        $local_task['base_route'] = 'path.admin_overview';
-      }
-    }
-  }
-}
