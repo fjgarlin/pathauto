@@ -1,19 +1,22 @@
 
 ***DRUPAL-5 only***
+2022-10-18
+  Testing mirroring.
+
 2007-05-16
-  Forum aliases are now handled separately.  Forum vocabularies will not get 
+  Forum aliases are now handled separately.  Forum vocabularies will not get
     a regular taxonomy/term/[tid] alias and the pattern input is not available.
 
   Added a "Delete all aliases" function.  See tabs at admin/build/path.
 
   Bulk updates claim that they only impact non-aliased objects but really affect
     everything (depending on update action).  Changed the queries so that now
-    pathauto will only impact items which are not aliased.  To get a clean slate 
+    pathauto will only impact items which are not aliased.  To get a clean slate
 
 2007-04-01
-  Major update to use the token module.  The pattern set is now _much_ richer.  
+  Major update to use the token module.  The pattern set is now _much_ richer.
     Certain patterns have changed as noted below:
-      Node patterns: 
+      Node patterns:
       	[user] => [author-name]
       	[uid]  => [author-uid]
       	[cat] => [term]  (only for node patterns!!!)
@@ -22,10 +25,10 @@
 2006-03-19
   Removed _pathauto_page capability which wasn't used by many sites
     nor by any contrib modules.  If your site or module used this
-    consider creating a separate contributed module.  This also 
+    consider creating a separate contributed module.  This also
     requires removing the index alias function.  See the Pathauto section
     of the handbook for ideas on how to replace this functionality using views:
-    http://drupal.org/handbook/modules/pathauto and more specificially the 
+    http://drupal.org/handbook/modules/pathauto and more specificially the
     Pathauto Pattern Recipes: http://drupal.org/node/124462
 
 2006-11-11
@@ -51,22 +54,22 @@
     Replaced node_list() with node_get_types().
     Removed theme('page'...) call.
     Implemented new forms API.
-  
+
 ***DRUPAL-4-6 only***
 2005-10-26
   Fix bug with tracker bulk update, introduced with "support stripping
   slashes in individual components".
- 
+
 2005-10-22
   Fixed bug where taxonomy info is sometimes ignored.
 
 2005-10-2
   Fix bug with book paths not translating spaces to separators.
-  
+
 2005-9-26
   Fix bug with taxonomy bulk update, introduced with "support stripping
   slashes in individual components".
-  
+
 2005-9-18
   Added a maximum alias component length setting.
   Make enabling of feed aliases specific to the content type.
@@ -79,10 +82,10 @@
   Some improvement in transliteration of unicode characters.
   Corrected HTML for placeholder documentation.
   Corrected description in node form.
-  
+
 2005-8-20
   Fixed bug in paging of index pages.
-  
+
 2005-7-25
   Also exlude "blog" and "admin" as alises.
   Un-implement blog_pathauto_page() - leave the default blog behavior.
@@ -94,10 +97,10 @@
   No longer treat hyphens as alphanumerics (i.e., replace them with
     separators).
   Don't allow "user" as an alias.
-  
+
 2005-7-6
   Fixed bug - [bookpath] having no effect during bulk update.
-  
+
 2005-7-4
   Added verbose option, to display alias change/create actions.
   Fixed problem with timed-out bulk updates "sticking" and trying to
@@ -128,9 +131,9 @@
 ***DRUPAL-4-5, DRUPAL-4-6 releases***
 2005-5-15
   Fixed bug in user/blog bulk updates - need to ignore user 0.
-  
+
 2005-5-14
-  Fixed bug when creating users if blog module is enabled - missing 
+  Fixed bug when creating users if blog module is enabled - missing
   argument.
 
 2005-5-9
@@ -171,6 +174,6 @@
 2005-2-21
   Fixed bug when taxonomy module was not enabled.
 2005-2-15
-  Initial merger of Mike Ryan's autopath with Tommy Sundstrom's 
+  Initial merger of Mike Ryan's autopath with Tommy Sundstrom's
   path_automatic.
 
